@@ -32,10 +32,10 @@ function App() {
 
 
   function onDrop(sourceSquare, targetSquare) {
-    const move = makeAMove({
+    const move = handleMove({
       from: sourceSquare,
       to: targetSquare,
-      promotion: "q", // always promote to a queen for example simplicity
+        // always promote to a queen for example simplicity
     });
 
     // illegal move
@@ -143,6 +143,7 @@ function App() {
             customDarkSquareStyle={{ backgroundColor: darkColor }}
             customLightSquareStyle={{ backgroundColor: boardColor }}
             onPieceDrop={onDrop}
+            arePiecesDraggable={false}
             
         
             
