@@ -5,6 +5,7 @@ import {Chess} from 'chess.js'
 import './App.css'; // Import your CSS file for styling
 
 function App() {
+  const [game, setGame] = useState(new Chess());
   const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
   const [fen, setFen] = useState(defaultFen);
   const [darkMode, setDarkMode] = useState(true);
@@ -28,6 +29,19 @@ function App() {
     setDarkColor(dark);
   };
 
+
+
+  function onDrop(sourceSquare, targetSquare) {
+    const move = makeAMove({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: "q", // always promote to a queen for example simplicity
+    });
+
+    // illegal move
+    if (move === null) return false;
+    return true;
+  }
  
 
   const fetchEvaluation = async (mode, depth) => {
@@ -51,9 +65,16 @@ function App() {
     }
   }
 
+  function makeAMove(move) {
+    const gameCopy = { ...game };
+    const result = gameCopy.move(move);
+    setGame(gameCopy);
+    setFen(gameCopy.fen())
+    return result; 
+  }
+
   const resetBoard = () => {
     setFen(defaultFen);
-    window.location.reload();
   }
 
 
@@ -108,7 +129,7 @@ function App() {
             <button onClick={() => changeBoardColor('#ADD8E6', '#0000d9')}>Blue Board</button>
             <button onClick={() => changeBoardColor('#edeed1', '#779952')}>Green Board</button>
             <button onClick={handleClick}>Get Evaluation</button> {/* Button to trigger evaluation */}
-            <button onClick={resetBoard}>Reset Board</button>
+            <button onClick={() => resetBoard()}>Reset Board</button>
             <button onClick={() => changeFlip(flip)}>Flip Board</button>
             
 
@@ -121,6 +142,7 @@ function App() {
             boardColor={boardColor}
             customDarkSquareStyle={{ backgroundColor: darkColor }}
             customLightSquareStyle={{ backgroundColor: boardColor }}
+            onPieceDrop={onDrop}
             
         
             
