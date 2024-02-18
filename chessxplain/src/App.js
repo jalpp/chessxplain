@@ -10,10 +10,10 @@ function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [boardColor, setBoardColor] = useState('#edeed1');
   const [darkColor, setDarkColor] = useState('#779952')
-  const [pieceStyle, setPieceStyle] = useState('merida');
   const [evaluation, setEvaluation] = useState('');
   const [topline, setTopline] = useState('');
   const [bestmove, setBestmove] = useState('');
+  const [flip, setflip] = useState('white');
 
   const handleFenChange = (event) => {
     setFen(event.target.value);
@@ -42,6 +42,14 @@ function App() {
       console.error('Error fetching evaluation:', error);
     }
   };
+
+  const changeFlip = (flipp) => {
+    if(flipp == 'white'){
+      setflip('black');
+    }else{
+      setflip('white');
+    }
+  }
 
   const resetBoard = () => {
     setFen(defaultFen);
@@ -101,6 +109,7 @@ function App() {
             <button onClick={() => changeBoardColor('#edeed1', '#779952')}>Green Board</button>
             <button onClick={handleClick}>Get Evaluation</button> {/* Button to trigger evaluation */}
             <button onClick={resetBoard}>Reset Board</button>
+            <button onClick={() => changeFlip(flip)}>Flip Board</button>
             
 
           </div>
@@ -108,10 +117,11 @@ function App() {
         <div className="chessboard-container">
           <Chessboard
             position={fen}
+            boardOrientation={flip}
             boardColor={boardColor}
             customDarkSquareStyle={{ backgroundColor: darkColor }}
             customLightSquareStyle={{ backgroundColor: boardColor }}
-            pieceStyle={`../node_modules/@chrisoakman/chessboardjs/img/chesspieces/${pieceStyle}/{piece}.png`}
+            
         
             
           />
