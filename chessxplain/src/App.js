@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {Chessboard} from 'react-chessboard';
 import axios from 'axios'
-import {Chess} from 'chess.js'
 import './App.css'; // Import your CSS file for styling
+//import getGPTEval from './Gpteval';
 
 function App() {
-  const [game, setGame] = useState(new Chess());
   const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
   const [fen, setFen] = useState(defaultFen);
   const [darkMode, setDarkMode] = useState(true);
@@ -15,6 +14,7 @@ function App() {
   const [topline, setTopline] = useState('');
   const [bestmove, setBestmove] = useState('');
   const [flip, setflip] = useState('white');
+  const [gpteval, setGpteval] = useState('');
 
   const handleFenChange = (event) => {
     setFen(event.target.value);
@@ -29,20 +29,66 @@ function App() {
     setDarkColor(dark);
   };
 
+  const handleGPT = async () => {
 
+    const evaluationValue = await fetchEvaluation('eval', '13');
+      const topLine = await fetchEvaluation('lines', '13')
+      const bestmove = await fetchEvaluation('bestmove', '13')
 
-  function onDrop(sourceSquare, targetSquare) {
-    const move = handleMove({
-      from: sourceSquare,
-      to: targetSquare,
-        // always promote to a queen for example simplicity
-    });
+  
 
-    // illegal move
-    if (move === null) return false;
-    return true;
+      const ask = 'here is the chess game FEN' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + 'What do you think about it, can you explain me the position';
+
+      console.log(ask)
+    //
+    const options = {
+      method: 'POST',
+      url: 'https://open-ai21.p.rapidapi.com/conversationgpt',
+      headers: {
+        'content-type': 'application/json',
+        'X-RapidAPI-Key': '0620adb1fbmshb13ae4cffc3b50dp1220b8jsne557d355788a',
+        'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
+      },
+      data: {
+        messages: [
+          {
+            role: 'user',
+            content: ask
+          }
+        ],
+        web_access: false,
+        system_prompt: '',
+        temperature: 0.5,
+        top_k: 10,
+        top_p: 0.1,
+        max_tokens: 256
+      }
+    };
+    
+    try {
+      const response = await axios.request(options);
+      console.log(response.data.result);
+      return response.data.result;
+    } catch (error) {
+      console.error(error);
+    }
   }
- 
+
+  const handleGPTClick = async () => {
+
+    try{
+
+      const gptanswer = await handleGPT();
+      setGpteval(gptanswer);
+
+    }catch(error){
+      console.log(error)
+    }
+
+  }
+
+
+  
 
   const fetchEvaluation = async (mode, depth) => {
     try {
@@ -57,21 +103,16 @@ function App() {
     }
   };
 
+
+
   const changeFlip = (flipp) => {
-    if(flipp == 'white'){
+    if(flipp === 'white'){
       setflip('black');
     }else{
       setflip('white');
     }
   }
 
-  function makeAMove(move) {
-    const gameCopy = { ...game };
-    const result = gameCopy.move(move);
-    setGame(gameCopy);
-    setFen(gameCopy.fen())
-    return result; 
-  }
 
   const resetBoard = () => {
     setFen(defaultFen);
@@ -91,21 +132,6 @@ function App() {
       console.error('Error handling evaluation:', error);
     }
   };
-
-  const handleMove = (from, to) => {
-    // Create a new chess.js instance with the current FEN
-    const Chess = require('chess.js');
-    const chess = new Chess(fen);
-
-    // Validate the move
-    const move = chess.move({ from: from, to: to, promotion: 'q' });
-
-    // If the move is valid, update the FEN
-    if (move !== null) {
-      setFen(chess.fen());
-    }
-  };
-
 
 
   return (
@@ -129,10 +155,9 @@ function App() {
             <button onClick={() => changeBoardColor('#ADD8E6', '#0000d9')}>Blue Board</button>
             <button onClick={() => changeBoardColor('#edeed1', '#779952')}>Green Board</button>
             <button onClick={handleClick}>Get Evaluation</button> {/* Button to trigger evaluation */}
+            <button onClick={() => handleGPTClick()}> Get GPT Eval </button>
             <button onClick={() => resetBoard()}>Reset Board</button>
             <button onClick={() => changeFlip(flip)}>Flip Board</button>
-            
-
           </div>
         </div>
         <div className="chessboard-container">
@@ -142,10 +167,10 @@ function App() {
             boardColor={boardColor}
             customDarkSquareStyle={{ backgroundColor: darkColor }}
             customLightSquareStyle={{ backgroundColor: boardColor }}
-            onPieceDrop={onDrop}
             arePiecesDraggable={false}
+            allowDragOutsideBoard={false}
+            arePremovesAllowed={false}
             
-        
             
           />
         </div>
@@ -153,6 +178,7 @@ function App() {
           <p> Stockfish Eval {evaluation.data}</p>
           <p> Stockfish Top Line {topline.data}</p>
           <p> Stockfish Best Move {bestmove.data} </p>
+          <p> GPT Eval {gpteval}</p>
         </div>
       </div>
     </div>
