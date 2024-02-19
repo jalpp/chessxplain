@@ -1,7 +1,7 @@
 
 import fetchEvaluation from "../fish/Stockfish";
 
-
+import searchOpenings from "./queryOpenings";
 
 const  promptAiBasedOnSF = async (fen) => {
 
@@ -17,9 +17,10 @@ const  promptAiBasedOnSF = async (fen) => {
       whoisWinning = 'white has advantage and possibly be winning';
     }
 
-
-
+    
     const ask = 'here is the chess game FEN: ' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + ' What do you think about it, can you explain me current position and Stockfishs topline, how would the game change?, provide plans for both side';
+
+    console.log(ask);
 
 
    return ask;
