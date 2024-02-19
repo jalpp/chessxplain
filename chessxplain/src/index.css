@@ -7,7 +7,7 @@ body {
 .container {
   max-width: 800px;
   margin: 0 auto;
-  height: 1200px;
+  height: 200vh;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -27,6 +27,12 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 70%;
+}
+
+.buttons-container button{
+  align-items: left;
+  background-color: white;
+  color: black;
 }
 
 .search-container button {
@@ -55,5 +61,12 @@ body {
 .dark .search-container button {
   background-color:black;
   color: #fff;
+}
+
+
+.dark .buttons-container button{
+  align-items: left;
+  background-color: black;
+  color: white;
 }
 

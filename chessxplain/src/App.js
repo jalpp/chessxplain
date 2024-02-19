@@ -15,6 +15,8 @@ function App() {
   const [bestmove, setBestmove] = useState('');
   const [flip, setflip] = useState('white');
   const [gpteval, setGpteval] = useState('');
+  const [getevalama, setEvalama] = useState('');
+  const [getconvo, setConvo] = useState('');
 
   const handleFenChange = (event) => {
     setFen(event.target.value);
@@ -29,24 +31,132 @@ function App() {
     setDarkColor(dark);
   };
 
-  const handleGPT = async () => {
+  
+
+
+  const handleConvo= async () => {
 
     const evaluationValue = await fetchEvaluation('eval', '13');
+    const topLine = await fetchEvaluation('lines', '13')
+    const bestmove = await fetchEvaluation('bestmove', '13')
+
+    let whoisWinning = '';
+
+    if(evaluationValue.data.includes('-')){
+      whoisWinning = 'black has advantage and possibly be winning';
+    }else{
+      whoisWinning = 'white has advantage and possibly be winning';
+    }
+
+
+
+    const ask = 'here is the chess game FEN' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + ' What do you think about it, can you explain me the position, provide plans for both side';
+
+    console.log(ask)
+  //
+  const options = {
+    method: 'POST',
+    url: 'https://open-ai21.p.rapidapi.com/conversationmpt',
+    headers: {
+      'content-type': 'application/json',
+      'X-RapidAPI-Key': process.env.REACT_APP_GPT_TOKEN,
+      'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
+    },
+    data: {
+      messages: [
+        {
+          role: 'user',
+          content: ask
+        }
+      ],
+    }
+  };
+  
+  try {
+    const response = await axios.request(options);
+    console.log(response.data.result);
+    return response.data.result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+  const handleLama = async () => {
+
+    const evaluationValue = await fetchEvaluation('eval', '13');
+    const topLine = await fetchEvaluation('lines', '13')
+    const bestmove = await fetchEvaluation('bestmove', '13')
+
+    let whoisWinning = '';
+
+    if(evaluationValue.data.includes('-')){
+      whoisWinning = 'black has advantage and possibly be winning';
+    }else{
+      whoisWinning = 'white has advantage and possibly be winning';
+    }
+
+
+
+    const ask = 'here is the chess game FEN' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + ' What do you think about it, can you explain me the position, provide plans for both side';
+
+    console.log(ask)
+  //
+  const options = {
+    method: 'POST',
+    url: 'https://open-ai21.p.rapidapi.com/conversationllama',
+    headers: {
+      'content-type': 'application/json',
+      'X-RapidAPI-Key': process.env.REACT_APP_GPT_TOKEN,
+      'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
+    },
+    data: {
+      messages: [
+        {
+          role: 'user',
+          content: ask
+        }
+      ],
+      web_access: false
+    }
+  };
+  
+  try {
+    const response = await axios.request(options);
+    console.log(response.data.result);
+    return response.data.result;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+ 
+  const handleGPT = async () => {
+
+      const evaluationValue = await fetchEvaluation('eval', '13');
       const topLine = await fetchEvaluation('lines', '13')
       const bestmove = await fetchEvaluation('bestmove', '13')
 
+      let whoisWinning = '';
+
+      if(evaluationValue.data.includes('-')){
+        whoisWinning = 'black has advantage and possibly be winning';
+      }else{
+        whoisWinning = 'white has advantage and possibly be winning';
+      }
+
   
 
-      const ask = 'here is the chess game FEN' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + 'What do you think about it, can you explain me the position';
+      const ask = 'here is the chess game FEN' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + ' What do you think about it, can you explain me the position, provide plans for both side';
 
       console.log(ask)
     //
     const options = {
       method: 'POST',
-      url: 'https://open-ai21.p.rapidapi.com/conversationgpt',
+      url: 'https://open-ai21.p.rapidapi.com/chatgpt',
       headers: {
         'content-type': 'application/json',
-        'X-RapidAPI-Key': '0620adb1fbmshb13ae4cffc3b50dp1220b8jsne557d355788a',
+        'X-RapidAPI-Key': process.env.REACT_APP_GPT_TOKEN,
         'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
       },
       data: {
@@ -56,12 +166,7 @@ function App() {
             content: ask
           }
         ],
-        web_access: false,
-        system_prompt: '',
-        temperature: 0.5,
-        top_k: 10,
-        top_p: 0.1,
-        max_tokens: 256
+        web_access: false
       }
     };
     
@@ -86,6 +191,29 @@ function App() {
     }
 
   }
+
+
+  const handleLAMAClick = async () => {
+    try{
+
+      const getlamanswer = await handleLama();
+      setEvalama(getlamanswer);
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  
+  const handleConvoClick = async () => {
+    try{
+
+      const getbardans = await handleConvo();
+      setConvo(getbardans);
+    }catch(error){
+      console.log(error)
+    }
+  }
+
 
 
   
@@ -116,6 +244,11 @@ function App() {
 
   const resetBoard = () => {
     setFen(defaultFen);
+    setGpteval('');
+    setBestmove('');
+    setEvaluation('');
+    setTopline('');
+    setEvalama('');
   }
 
 
@@ -138,6 +271,7 @@ function App() {
     <div className={`App ${darkMode ? 'dark' : ''}`}>
       <div className="container">
         <h1>ChessXplain</h1>
+        <p> Explore AI models' like GPT, LAMA, Bard chess eval for given FEN! </p>
         <div className="controls">
           <div className="search-container">
             <input
@@ -155,7 +289,9 @@ function App() {
             <button onClick={() => changeBoardColor('#ADD8E6', '#0000d9')}>Blue Board</button>
             <button onClick={() => changeBoardColor('#edeed1', '#779952')}>Green Board</button>
             <button onClick={handleClick}>Get Evaluation</button> {/* Button to trigger evaluation */}
-            <button onClick={() => handleGPTClick()}> Get GPT Eval </button>
+            <button onClick={() => handleGPTClick()}> Get GPT 3.5 Eval </button>
+            <button onClick={() => handleLAMAClick()}> Get LAMA 270b Eval </button>
+            <button onClick={() => handleConvoClick()}>Get GPT 3.5 CONVO-b Eval</button>
             <button onClick={() => resetBoard()}>Reset Board</button>
             <button onClick={() => changeFlip(flip)}>Flip Board</button>
           </div>
@@ -175,10 +311,24 @@ function App() {
           />
         </div>
         <div>
-          <p> Stockfish Eval {evaluation.data}</p>
-          <p> Stockfish Top Line {topline.data}</p>
-          <p> Stockfish Best Move {bestmove.data} </p>
-          <p> GPT Eval {gpteval}</p>
+          <p> Stockfish Eval: </p>
+          <p>{evaluation.data}</p>
+          <hr></hr>
+          <p> Stockfish Top Line: </p>
+          <p>{topline.data}</p>
+          <hr></hr>
+          <p> Stockfish Best Move: </p>
+          <p>{bestmove.data}</p>
+          <hr></hr>
+          <p> GPT 3.5 Eval: </p>
+          <p>{gpteval}</p>
+          <hr></hr>
+          <p> LAMA 270b Eval: </p>
+          <p> {getevalama}</p>
+          <hr></hr>
+          <p> GPT 3.5 CONVO-b Eval</p>
+          <p> {getconvo}</p>
+          <hr></hr>
         </div>
       </div>
     </div>
