@@ -117,8 +117,8 @@ function App() {
   return (
     <div className={`App ${darkMode ? 'dark' : ''}`}>
       <div className="container">
-        <h1>ChessXplain</h1>
-        <p> Explore AI models' like GPT, LAMA, Bard chess eval for given FEN! </p>
+        <h1>ChessXplain.AI</h1>
+        <p> Explore AI models' like GPT and Bard chess eval for given FEN! </p>
         <div className="controls">
           <div className="search-container">
             <input
