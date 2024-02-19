@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import {Chessboard} from 'react-chessboard';
-import axios from 'axios'
-import './App.css'; // Import your CSS file for styling
-//import getGPTEval from './Gpteval';
+import './App.css';
+import fetchEvaluation from './fish/Stockfish.js';
+import handleConvo from './Ai/GPTConvo.js';
+import handleLama from './Ai/LAMAAi.js';
+import handleGPT from './Ai/GPTAi.js';
 
 function App() {
   const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
@@ -31,205 +33,46 @@ function App() {
     setDarkColor(dark);
   };
 
-  
-
-
-  const handleConvo= async () => {
-
-    const evaluationValue = await fetchEvaluation('eval', '13');
-    const topLine = await fetchEvaluation('lines', '13')
-    const bestmove = await fetchEvaluation('bestmove', '13')
-
-    let whoisWinning = '';
-
-    if(evaluationValue.data.includes('-')){
-      whoisWinning = 'black has advantage and possibly be winning';
-    }else{
-      whoisWinning = 'white has advantage and possibly be winning';
-    }
-
-
-
-    const ask = 'here is the chess game FEN' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + ' What do you think about it, can you explain me the position, provide plans for both side';
-
-    console.log(ask)
-  //
-  const options = {
-    method: 'POST',
-    url: 'https://open-ai21.p.rapidapi.com/conversationmpt',
-    headers: {
-      'content-type': 'application/json',
-      'X-RapidAPI-Key': process.env.REACT_APP_GPT_TOKEN,
-      'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
-    },
-    data: {
-      messages: [
-        {
-          role: 'user',
-          content: ask
-        }
-      ],
-    }
-  };
-  
-  try {
-    const response = await axios.request(options);
-    console.log(response.data.result);
-    return response.data.result;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-
-  const handleLama = async () => {
-
-    const evaluationValue = await fetchEvaluation('eval', '13');
-    const topLine = await fetchEvaluation('lines', '13')
-    const bestmove = await fetchEvaluation('bestmove', '13')
-
-    let whoisWinning = '';
-
-    if(evaluationValue.data.includes('-')){
-      whoisWinning = 'black has advantage and possibly be winning';
-    }else{
-      whoisWinning = 'white has advantage and possibly be winning';
-    }
-
-
-
-    const ask = 'here is the chess game FEN' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + ' What do you think about it, can you explain me the position, provide plans for both side';
-
-    console.log(ask)
-  //
-  const options = {
-    method: 'POST',
-    url: 'https://open-ai21.p.rapidapi.com/conversationllama',
-    headers: {
-      'content-type': 'application/json',
-      'X-RapidAPI-Key': process.env.REACT_APP_GPT_TOKEN,
-      'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
-    },
-    data: {
-      messages: [
-        {
-          role: 'user',
-          content: ask
-        }
-      ],
-      web_access: false
-    }
-  };
-  
-  try {
-    const response = await axios.request(options);
-    console.log(response.data.result);
-    return response.data.result;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
- 
-  const handleGPT = async () => {
-
-      const evaluationValue = await fetchEvaluation('eval', '13');
-      const topLine = await fetchEvaluation('lines', '13')
-      const bestmove = await fetchEvaluation('bestmove', '13')
-
-      let whoisWinning = '';
-
-      if(evaluationValue.data.includes('-')){
-        whoisWinning = 'black has advantage and possibly be winning';
-      }else{
-        whoisWinning = 'white has advantage and possibly be winning';
-      }
-
-  
-
-      const ask = 'here is the chess game FEN' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + ' What do you think about it, can you explain me the position, provide plans for both side';
-
-      console.log(ask)
-    //
-    const options = {
-      method: 'POST',
-      url: 'https://open-ai21.p.rapidapi.com/chatgpt',
-      headers: {
-        'content-type': 'application/json',
-        'X-RapidAPI-Key': process.env.REACT_APP_GPT_TOKEN,
-        'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
-      },
-      data: {
-        messages: [
-          {
-            role: 'user',
-            content: ask
-          }
-        ],
-        web_access: false
-      }
-    };
-    
-    try {
-      const response = await axios.request(options);
-      console.log(response.data.result);
-      return response.data.result;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   const handleGPTClick = async () => {
-
+    setGpteval('Please wait this can take up to 2 mins...');
     try{
-
-      const gptanswer = await handleGPT();
+      
+      const gptanswer = await handleGPT(fen);
       setGpteval(gptanswer);
 
     }catch(error){
-      console.log(error)
+      setGpteval('Request timed out! Please try again after some mins!')
     }
 
   }
 
 
   const handleLAMAClick = async () => {
+    setEvalama('Please wait this can take up to 2 mins...');
     try{
 
-      const getlamanswer = await handleLama();
+      const getlamanswer = await handleLama(fen);
       setEvalama(getlamanswer);
     }catch(error){
-      console.log(error)
+      setEvalama('Request timed out! Please try again after some mins!')
     }
   }
 
   
   const handleConvoClick = async () => {
+    setConvo('Please wait this can take up to 2 mins...');
     try{
 
-      const getbardans = await handleConvo();
+      const getbardans = await handleConvo(fen);
       setConvo(getbardans);
     }catch(error){
-      console.log(error)
+      setConvo('Request timed out! Please try again after some mins!')
     }
   }
 
 
 
   
-
-  const fetchEvaluation = async (mode, depth) => {
-    try {
-      const response = await axios.get(
-        `https://stockfish.online/api/stockfish.php?fen=${encodeURIComponent(
-          fen
-        )}&depth=${depth}&mode=${mode}`
-      );
-       return response.data;
-    } catch (error) {
-      console.error('Error fetching evaluation:', error);
-    }
-  };
 
 
 
@@ -254,15 +97,19 @@ function App() {
 
   const handleClick = async () => {
     try {
-      const evaluationValue = await fetchEvaluation('eval', '13');
-      const topLine = await fetchEvaluation('lines', '13')
-      const bestmove = await fetchEvaluation('bestmove', '13')
+      const evaluationValue = await fetchEvaluation('eval', '13', fen);
+      const topLine = await fetchEvaluation('lines', '13', fen)
+      const bestmove = await fetchEvaluation('bestmove', '13', fen)
       setEvaluation(evaluationValue);
       setTopline(topLine);
       setBestmove(bestmove)
 
     } catch (error) {
       console.error('Error handling evaluation:', error);
+      setEvaluation('Error! Please try again later');
+      setTopline('Error! Please try again later');
+      setBestmove('Error! Please try again later')
+
     }
   };
 
@@ -290,7 +137,7 @@ function App() {
             <button onClick={() => changeBoardColor('#edeed1', '#779952')}>Green Board</button>
             <button onClick={handleClick}>Get Evaluation</button> {/* Button to trigger evaluation */}
             <button onClick={() => handleGPTClick()}> Get GPT 3.5 Eval </button>
-            <button onClick={() => handleLAMAClick()}> Get LAMA 270b Eval </button>
+            <button onClick={() => handleLAMAClick()}> Get Bard AI Eval </button>
             <button onClick={() => handleConvoClick()}>Get GPT 3.5 CONVO-b Eval</button>
             <button onClick={() => resetBoard()}>Reset Board</button>
             <button onClick={() => changeFlip(flip)}>Flip Board</button>
@@ -323,7 +170,7 @@ function App() {
           <p> GPT 3.5 Eval: </p>
           <p>{gpteval}</p>
           <hr></hr>
-          <p> LAMA 270b Eval: </p>
+          <p> Bard Ai Eval: </p>
           <p> {getevalama}</p>
           <hr></hr>
           <p> GPT 3.5 CONVO-b Eval</p>
