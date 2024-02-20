@@ -5,6 +5,7 @@ import fetchEvaluation from './fish/Stockfish.js';
 import handleConvo from './Ai/GPTConvo.js';
 import handleLama from './Ai/LAMAAi.js';
 import handleGPT from './Ai/GPTAi.js';
+import handleGPTGame from './Ai/GPTAiGame.js';
 
 function App() {
   const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
@@ -19,10 +20,15 @@ function App() {
   const [gpteval, setGpteval] = useState('');
   const [getevalama, setEvalama] = useState('');
   const [getconvo, setConvo] = useState('');
+  const [lichessgame, setLichessgame] = useState('');
 
   const handleFenChange = (event) => {
     setFen(event.target.value);
   };
+
+  const handleGameChange = (event) => {
+    setLichessgame(event.target.value);
+  }
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -42,6 +48,19 @@ function App() {
 
     }catch(error){
       setGpteval('Request timed out! Please try again after some mins!')
+    }
+
+  }
+
+  const handleGPTGameClick = async () => {
+    setLichessgame('Please wait this can take up to 2 mins...');
+    try{
+      
+      const gptanswer = await handleGPTGame(lichessgame);
+      setLichessgame(gptanswer);
+
+    }catch(error){
+      setLichessgame('Request timed out! Please try again after some mins!')
     }
 
   }
@@ -126,10 +145,17 @@ function App() {
               value={fen}
               onChange={handleFenChange}
               placeholder="Enter FEN String..."
-            />
+            /> 
             <button onClick={toggleDarkMode}>
               {darkMode ? 'Light Mode' : 'Dark Mode'}
             </button>
+          </div>
+          <div className="search-container">
+          <input
+              type="text"
+              onChange={handleGameChange}
+              placeholder="Enter Lichess game URL"
+            /> 
           </div>
           <div className="buttons-container">
             <button onClick={() => changeBoardColor('#C4A484', '#7c3f00')}>Brown Board</button>

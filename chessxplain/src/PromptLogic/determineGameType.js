@@ -1,3 +1,4 @@
+import searchOpenings from "./queryOpenings";
 
 
 
@@ -7,12 +8,16 @@
 
 const determinegamemode = (fen) => {
 
-   let gametype = 'opening game';
+   let gametype = '';
 
 
-   if((fen.split('k').length - 1) < 1 || (fen.split('k').length - 1) > 1 || (fen.split('K').length - 1) < 1 || (fen.split('K').length - 1) > 1){
-    return null; // invalid FEN
-   }else if((fen.includes('q') && fen.includes('b') && fen.includes('n') && fen.includes('r')) && (fen.includes('Q') && fen.includes('B') && fen.includes('N') && fen.includes('R'))){
+   if(searchOpenings(fen) !== null){
+      return 'opening game'
+   }
+
+
+
+   if((fen.includes('q') && fen.includes('b') && fen.includes('n') && fen.includes('r')) && (fen.includes('Q') && fen.includes('B') && fen.includes('N') && fen.includes('R'))){
     gametype = 'middle game';
    }else if ((fen.includes('p') && fen.includes('k') ) && (fen.includes('P') && fen.includes('K'))){
       gametype = 'pawn endgame';
