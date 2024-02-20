@@ -1,5 +1,6 @@
 
 import fetchEvaluation from "../fish/Stockfish";
+import determinegamemode from "./determineGameType";
 
 import searchOpenings from "./queryOpenings";
 import searchTopGame from "./queryTopGames";
@@ -22,6 +23,7 @@ const  promptAiBasedOnSF = async (fen) => {
 
     const opening = await searchOpenings(fen);
     const top = await searchTopGame(fen);
+    const gameType = await determinegamemode(fen)
     let gameinfo = '';
 
     if(opening != null){
@@ -39,9 +41,9 @@ const  promptAiBasedOnSF = async (fen) => {
     }
   
     if(fen != startpos){  
-    ask = 'here is the chess game FEN: ' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + 'some background about this position: ' + gameinfo + ' What do you think about it, can you explain me current position and Stockfishs topline, how would the game change?, provide plans for both side, provide info about position in master games.';
+    ask = 'here is the chess game FEN: ' + fen + ' according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + ' the game is in ' + gameType + ' phase ' + ',some background about this position: ' + gameinfo + ' What do you think about it, can you explain me current position and Stockfishs topline, how would the game change?, provide plans for both side, provide info about position in master games.';
     }else{
-      ask = 'this is the starting position of Chess, according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + 'some background about this position: ' + gameinfo + ' What do you think about it, can you explain where the starting position can go according to Stockfish, how would the game change?, provide plans for both side, provide info about position in master games.';
+      ask = 'this is the starting position of Chess, according to Stockfish the eval is ' + evaluationValue.data + ' ' + whoisWinning + ', the topline is ' + topLine.data + ' and the best move is ' + bestmove.data + ' the game is in ' + gameType + ' phase ' + ',some background about this position: ' + gameinfo + ' What do you think about it, can you explain where the starting position can go according to Stockfish, how would the game change?, provide plans for both side, provide info about position in master games.';
 
     } 
 
