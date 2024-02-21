@@ -1,13 +1,22 @@
 
 import axios from "axios";
-import promptAiBasedOnSF from "../PromptLogic/promptcompute";
-
+import promptAiBasedOnGame from "../PromptLogic/promptAiBasedOnGame";
 
 const handleGPTGame = async (game) => {
 
+
+    if(!game.includes("https://lichess.org/")){
+      return "Please enter a Lichess game!";
+    }
+
    
     const ask = await promptAiBasedOnGame(game);
-  //
+
+    if(ask === null){
+      return "Error! Analyze the game first using Stockfish on Lichess!";
+    }
+
+   
   const options = {
     method: 'POST',
     url: 'https://open-ai21.p.rapidapi.com/conversationgpt35',
@@ -38,6 +47,7 @@ const handleGPTGame = async (game) => {
     return response.data.result;
   } catch (error) {
     console.error(error);
+  
   }
 }
 

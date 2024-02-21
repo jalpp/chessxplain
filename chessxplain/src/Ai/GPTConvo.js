@@ -3,7 +3,7 @@ import promptAiBasedOnSF from "../PromptLogic/promptcompute";
 
 const handleConvo= async (fen) => {
 
-    const ask = await promptAiBasedOnSF(fen);
+  const ask = await promptAiBasedOnSF(fen);
 
   const options = {
     method: 'POST',

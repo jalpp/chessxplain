@@ -3,9 +3,11 @@ import axios from "axios";
 
 
 
-const queryLichessGame = (url) => {
+const queryLichessGame = async (url) => {
 
-  
+
+   
+
    
 
 

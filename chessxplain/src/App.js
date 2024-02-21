@@ -60,7 +60,7 @@ function App() {
       setLichessgame(gptanswer);
 
     }catch(error){
-      setLichessgame('Request timed out! Please try again after some mins!')
+      setLichessgame('Request timed out! Please ensure FEN is valid or try after some mins!')
     }
 
   }
@@ -73,7 +73,7 @@ function App() {
       const getlamanswer = await handleLama(fen);
       setEvalama(getlamanswer);
     }catch(error){
-      setEvalama('Request timed out! Please try again after some mins!')
+      setEvalama('Request timed out! Please ensure FEN is valid or try after some mins!')
     }
   }
 
@@ -85,7 +85,7 @@ function App() {
       const getbardans = await handleConvo(fen);
       setConvo(getbardans);
     }catch(error){
-      setConvo('Request timed out! Please try again after some mins!')
+      setConvo('Request timed out! Please ensure FEN is valid or try after some mins!')
     }
   }
 
@@ -111,6 +111,7 @@ function App() {
     setEvaluation('');
     setTopline('');
     setEvalama('');
+    setLichessgame('');
   }
 
 
@@ -137,7 +138,7 @@ function App() {
     <div className={`App ${darkMode ? 'dark' : ''}`}>
       <div className="container">
         <h1>ChessXplain.AI</h1>
-        <p> Explore AI models' like GPT and Bard chess eval for given FEN! </p>
+        <p> Explore AI model's chess evaluation based on given FEN and your Lichess game. </p>
         <div className="controls">
           <div className="search-container">
             <input
@@ -158,13 +159,15 @@ function App() {
             /> 
           </div>
           <div className="buttons-container">
+            <button onClick={handleClick}>Get FEN Evaluation</button> 
+            <button onClick={() => handleGPTGameClick()}>Get GAME Evaluation</button> 
+            <button onClick={() => handleGPTClick()}> Get FEN GPT 3.5 Eval </button>
+            <button onClick={() => handleLAMAClick()}> Get FEN Bard AI Eval </button>
+            <button onClick={() => handleConvoClick()}>Get FEN GPT 3.5 CONVO-b Eval</button>
+
             <button onClick={() => changeBoardColor('#C4A484', '#7c3f00')}>Brown Board</button>
             <button onClick={() => changeBoardColor('#ADD8E6', '#0000d9')}>Blue Board</button>
             <button onClick={() => changeBoardColor('#edeed1', '#779952')}>Green Board</button>
-            <button onClick={handleClick}>Get Evaluation</button> {/* Button to trigger evaluation */}
-            <button onClick={() => handleGPTClick()}> Get GPT 3.5 Eval </button>
-            <button onClick={() => handleLAMAClick()}> Get Bard AI Eval </button>
-            <button onClick={() => handleConvoClick()}>Get GPT 3.5 CONVO-b Eval</button>
             <button onClick={() => resetBoard()}>Reset Board</button>
             <button onClick={() => changeFlip(flip)}>Flip Board</button>
           </div>
@@ -193,15 +196,19 @@ function App() {
           <p> Stockfish Best Move: </p>
           <p>{bestmove.data}</p>
           <hr></hr>
-          <p> GPT 3.5 Eval: </p>
+          <p> GPT 3.5 FEN Eval: </p>
           <p>{gpteval}</p>
           <hr></hr>
-          <p> Bard Ai Eval: </p>
+          <p>GPT 3.5 Game Eval: </p>
+          <p> {lichessgame}</p>
+          <hr></hr>
+          <p> Bard Ai FEN Eval: </p>
           <p> {getevalama}</p>
           <hr></hr>
-          <p> GPT 3.5 CONVO-b Eval</p>
+          <p> GPT 3.5 CONVO-b FEN Eval</p>
           <p> {getconvo}</p>
           <hr></hr>
+          
         </div>
       </div>
     </div>
