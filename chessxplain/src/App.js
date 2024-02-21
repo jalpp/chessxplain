@@ -6,6 +6,7 @@ import handleConvo from './Ai/GPTConvo.js';
 import handleLama from './Ai/LAMAAi.js';
 import handleGPT from './Ai/GPTAi.js';
 import handleGPTGame from './Ai/GPTAiGame.js';
+import Chess from "chess.js";
 
 function App() {
   const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
@@ -21,9 +22,32 @@ function App() {
   const [getevalama, setEvalama] = useState('');
   const [getconvo, setConvo] = useState('');
   const [lichessgame, setLichessgame] = useState('');
+  const [game, setGame] = useState(new Chess());
+
+  const makeAMove = (move) => {
+    const gameCopy = { ...game };
+    const result = gameCopy.move(move);
+    setGame(gameCopy);
+    return result; // null if the move was illegal, the move object if the move was legal
+  }
+
+  const onDrop = (sourceSquare, targetSquare) => {
+    const move = makeAMove({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: "q", // always promote to a queen for example simplicity
+    });
+
+    // illegal move
+    if (move === null) return false;
+    setFen(game.fen());
+    return true;
+  }
 
   const handleFenChange = (event) => {
     setFen(event.target.value);
+    const newgame = new Chess(event.target.value);
+    setGame(newgame);
   };
 
   const handleGameChange = (event) => {
@@ -107,6 +131,7 @@ function App() {
   const resetBoard = () => {
     setFen(defaultFen);
     setGpteval('');
+    game.reset();
     setBestmove('');
     setEvaluation('');
     setTopline('');
@@ -138,7 +163,7 @@ function App() {
     <div className={`App ${darkMode ? 'dark' : ''}`}>
       <div className="container">
         <h1>ChessXplain.AI</h1>
-        <div class="icon-container">
+        <div className="icon-container">
           <a href="https://github.com/jalpp/chessxplain" rel="noreferrer"  target="_blank"><i class="fab fa-github fa-2x"></i></a>
           <a href="https://discord.gg/tpvgxn5eZC" rel="noreferrer"  target="_blank"><i class="fab fa-discord fa-2x"></i></a>
         </div>
@@ -163,8 +188,8 @@ function App() {
             /> 
           </div>
           <div className="buttons-container">
-            <button onClick={handleClick}>Get FEN Evaluation</button> 
-            <button onClick={() => handleGPTGameClick()}>Get GAME Evaluation</button> 
+            <button onClick={handleClick}>Get SF FEN Evaluation</button> 
+            <button onClick={() => handleGPTGameClick()}>Get GPT GAME Evaluation</button> 
             <button onClick={() => handleGPTClick()}> Get FEN GPT 3.5 Eval </button>
             <button onClick={() => handleLAMAClick()}> Get FEN Bard AI Eval </button>
             <button onClick={() => handleConvoClick()}>Get FEN GPT 3.5 CONVO-b Eval</button>
@@ -178,14 +203,15 @@ function App() {
         </div>
         <div className="chessboard-container">
           <Chessboard
-            position={fen}
+            position={game.fen()}
             boardOrientation={flip}
             boardColor={boardColor}
             customDarkSquareStyle={{ backgroundColor: darkColor }}
             customLightSquareStyle={{ backgroundColor: boardColor }}
-            arePiecesDraggable={false}
+            arePiecesDraggable={true}
             allowDragOutsideBoard={false}
             arePremovesAllowed={false}
+            onPieceDrop={onDrop}
             
             
           />

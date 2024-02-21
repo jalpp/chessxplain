@@ -1,19 +1,21 @@
 
 import axios from "axios";
 import promptAiBasedOnGame from "../PromptLogic/promptAiBasedOnGame";
+import promptAiBasedOnGeneralGame from "../PromptLogic/promptAiBasedOnGeneralGame";
 
 const handleGPTGame = async (game) => {
 
 
-    if(!game.includes("https://lichess.org/")){
-      return "Please enter a Lichess game!";
+    if(game.length < 1 || !game.includes("https://lichess.org/")){
+      return "Invalid Lichess game! Please enter proper Lichess game URL!";
     }
 
-   
-    const ask = await promptAiBasedOnGame(game);
+
+  
+    let ask = await promptAiBasedOnGame(game);
 
     if(ask === null){
-      return "Error! Analyze the game first using Stockfish on Lichess!";
+      ask = await promptAiBasedOnGeneralGame(game);
     }
 
    

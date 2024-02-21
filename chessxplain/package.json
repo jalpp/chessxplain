@@ -1,13 +1,13 @@
 {
   "name": "chessxplain",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.7",
-    "chess.js": "0.11.0",
+    "chess.js": "^0.12.0",
     "react": "^18.2.0",
     "react-chessboard": "^4.4.0",
     "react-chessboardjs": "^0.5.3",
