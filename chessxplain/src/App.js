@@ -138,6 +138,10 @@ function App() {
     <div className={`App ${darkMode ? 'dark' : ''}`}>
       <div className="container">
         <h1>ChessXplain.AI</h1>
+        <div class="icon-container">
+          <a href="https://github.com/jalpp/chessxplain" rel="noreferrer"  target="_blank"><i class="fab fa-github fa-2x"></i></a>
+          <a href="https://discord.gg/tpvgxn5eZC" rel="noreferrer"  target="_blank"><i class="fab fa-discord fa-2x"></i></a>
+        </div>
         <p> Explore AI model's chess evaluation based on given FEN and your Lichess game. </p>
         <div className="controls">
           <div className="search-container">

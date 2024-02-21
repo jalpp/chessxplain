@@ -70,6 +70,24 @@ body {
   color: white;
 }
 
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-container a {
+  margin: 0 10px; /* Adjust spacing between icons */
+  color: white; /* Adjust icon color */
+  text-decoration: none;
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.icon-container a:hover {
+  color: #007bff; /* Adjust hover color */
+}
+
+
 
 /* media queries */
 @media screen and (max-width: 600px) {
