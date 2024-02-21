@@ -1,7 +1,3 @@
-import searchOpenings from "./queryOpenings";
-
-
-
 
 
 
