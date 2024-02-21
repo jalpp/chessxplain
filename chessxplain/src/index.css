@@ -78,13 +78,13 @@ body {
 
 .icon-container a {
   margin: 0 10px; /* Adjust spacing between icons */
-  color: white; /* Adjust icon color */
+  color: darkblue; /* Adjust icon color */
   text-decoration: none;
   transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
 .icon-container a:hover {
-  color: #007bff; /* Adjust hover color */
+  color: lightblue; /* Adjust hover color */
 }
 
 
