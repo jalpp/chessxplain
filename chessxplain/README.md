@@ -3,12 +3,16 @@
 
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 
+
+
+
 # chessXplain
+
+![logo](./chessxplain/public/chess-rook.svg)
 
 Chessxplain is open source platform that allows users to generate AI models like chat GPT 3.5 and Bard palm's text based evaluations for give chess position FEN and Lichess game based on trustful Stockfish's valid chess evals.
 
 [Join Discord](https://discord.gg/PRQTXZXc8Z)
-
 
 
 
@@ -33,16 +37,6 @@ Chessxplain is open source platform that allows users to generate AI models like
 - Chess position FEN evaluation by Bard, chatGPT 3.5, chatGPT convo trained model
 
 
-
-## Installation
-
-Install chessxplain with git
-
-```bash
-  git clone <chessxplain repo>
-  cd my-project
-```
-    
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
@@ -80,7 +74,9 @@ Start the server
 
 ## Screenshots
 
+![screenshot1](../chessxplain/chessxplain/public/screenshot1.png)
 
+![screenshot2](../chessxplain/chessxplain/public/screenshot2.png)
 
 
 ## Roadmap
@@ -90,4 +86,8 @@ Start the server
 - Lichess study eval by AI
 
 - PGN support
+
+
+
+
 
