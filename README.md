@@ -71,7 +71,7 @@ Start the server
 
 ![screenshot1](./chessxplain/public/screenshot1.png)
 
-![screenshot2](./chessxplain/chessxplain/public/screenshot2.png)
+![screenshot2](./chessxplain/public/screenshot2.png)
 
 
 ## Roadmap
@@ -81,7 +81,6 @@ Start the server
 - Lichess study eval by AI
 
 - PGN support
-
 
 
 
