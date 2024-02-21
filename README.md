@@ -3,13 +3,10 @@
 
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 
-
-
-
 # chessXplain
 Chessxplain is open source platform that allows users to generate AI models like chat GPT 3.5 and Bard palm's text based evaluations for give chess position FEN and Lichess game based on trustful Stockfish's valid chess evals.
 
-[Join Discord](https://discord.gg/PRQTXZXc8Z)
+[Join Discord](https://discord.gg/PRQTXZXc8Z) [Try chessXplain](https://chessxplain.netlify.app/)
 
 ## Acknowledgements
 
