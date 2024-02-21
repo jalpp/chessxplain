@@ -1,70 +1,93 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Netlify Status](https://api.netlify.com/api/v1/badges/310a8201-6453-448c-8651-e237d3c3b8f3/deploy-status)](https://app.netlify.com/sites/chessxplain/deploys)
 
-## Available Scripts
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 
-In the project directory, you can run:
+# chessXplain
 
-### `npm start`
+Chessxplain is open source platform that allows users to generate AI models like chat GPT 3.5 and Bard palm's text based evaluations for give chess position FEN and Lichess game based on trustful Stockfish's valid chess evals.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+[Join Discord](https://discord.gg/PRQTXZXc8Z)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Acknowledgements
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ - [React Chessboard](https://github.com/Clariity/react-chessboard)
+ - [Chess.js](https://unpkg.com/browse/chess.js@0.12.0/)
+ - [Stockfish API](https://stockfish.online/)
+ - [Stockfish](https://stockfishchess.org/)
+ - [Lichess API](https://lichess.org/api)
+ - [Lichess Opening Explorer](https://lichess.org/api#tag/Opening-Explorer)
+ - [Lichess Games Database](https://lichess.org/api#tag/Games/operation/gamePgn)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Features
 
-### `npm run eject`
+- Light/dark mode toggle
+- Custom board colors
+- Chess position analysis with Stockfish
+- Live analysis board, automous AI evaluations for updated chess board
+- Lichess game text based evaluation by chatGPT 3.5
+- Chess position FEN evaluation by Bard, chatGPT 3.5, chatGPT convo trained model
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Installation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Install chessxplain with git
 
-## Learn More
+```bash
+  git clone <chessxplain repo>
+  cd my-project
+```
+    
+## Environment Variables
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To run this project, you will need to add the following environment variables to your .env file
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+`REACT_APP_GPT_TOKEN`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## Run Locally
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Clone the project
 
-### Making a Progressive Web App
+```bash
+  git clone https://github.com/jalpp/chessxplain.git
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Go to the project directory
 
-### Advanced Configuration
+```bash
+  cd my-project
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Install dependencies
 
-### Deployment
+```bash
+  npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Start the server
 
-### `npm run build` fails to minify
+```bash
+  npm run start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Screenshots
+
+
+
+
+## Roadmap
+
+- Lichess puzzle eval by AI
+
+- Lichess study eval by AI
+
+- PGN support
+
