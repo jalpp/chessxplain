@@ -1,5 +1,4 @@
 
-import queryLichessGame from "./queryLichessGame";
 import axios from "axios";
 
 
