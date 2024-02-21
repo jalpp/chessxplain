@@ -20,7 +20,6 @@ const promptAiBasedOnGeneralGame = async (url) => {
               };
               
             const res = await axios.request(options);
-            console.log(res.data)
             return `The game between player ${res.data.players.white.user.name} playing white vs player ${res.data.players.black.user.name} playing black the game ends in 
             ${res.data.winner} winning the game, the games moves were ${res.data.moves}, the time control for the game was ${res.data.speed}, the ${res.data.opening.name} opening was played, what are your thoughts about the game and the opening?`  
           }catch(error){
@@ -44,7 +43,6 @@ const promptAiBasedOnGeneralGame = async (url) => {
               };
               
             const res = await axios.request(options);
-            console.log(res.data)
             return `The game between player ${res.data.players.white.user.name} playing white vs player ${res.data.players.black.user.name} playing black the game ends in 
             ${res.data.winner} winning the game, the games moves were ${res.data.moves}, the time control for the game was ${res.data.speed}, the ${res.data.opening.name} opening was played, what are your thoughts about the game and the opening?`  
           }catch(error){

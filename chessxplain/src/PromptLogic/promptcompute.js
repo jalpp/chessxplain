@@ -46,8 +46,6 @@ const  promptAiBasedOnSF = async (fen) => {
       ask = `This is the starting position of chess according to Stockfish the eval is ${evaluationValue.data} ${whoisWinning}, the topline is ${topLine.data} and the best move is ${bestmove.data} the game is in ${gameType} phase, some background about this position: ${gameinfo} What do you think about it, can you explain me current position and Stockfishs topline, how would the game change?, provide plans for both side, provide info about position in master games.`;
     } 
 
-    console.log(ask);
-
    return ask;
 
 }
