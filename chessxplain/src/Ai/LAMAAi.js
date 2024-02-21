@@ -28,7 +28,7 @@ const handleLama = async (fen) => {
   
   try {
     const response = await axios.request(options);
-    console.log(response.data.BOT);
+
     return response.data.BOT;
   } catch (error) {
     console.error(error);
