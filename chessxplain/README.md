@@ -17,6 +17,7 @@ Chessxplain is open source platform that allows users to generate AI models like
  - [Lichess API](https://lichess.org/api)
  - [Lichess Opening Explorer](https://lichess.org/api#tag/Opening-Explorer)
  - [Lichess Games Database](https://lichess.org/api#tag/Games/operation/gamePgn)
+ - [Google Prompt Guide](https://cloud.google.com/vertex-ai/docs/generative-ai/text/text-prompts)
 
 
 ## Features
@@ -84,3 +85,7 @@ Start the server
 ## Authors:
 
 @jalpp
+
+
+
+
