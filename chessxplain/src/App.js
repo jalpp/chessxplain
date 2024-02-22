@@ -48,6 +48,7 @@ function App() {
     setFen(event.target.value);
     const newgame = new Chess(event.target.value);
     setGame(newgame);
+    setLichessgame('');
   };
 
   const handleGameChange = (event) => {
@@ -231,7 +232,7 @@ function App() {
           <p>{gpteval}</p>
           <hr></hr>
           <p>GPT 3.5 Game Eval: </p>
-          <p> {lichessgame}</p>
+          <p> Game to be analyzed... {lichessgame}</p>
           <hr></hr>
           <p> Bard Ai FEN Eval: </p>
           <p> {getevalama}</p>
