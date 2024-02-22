@@ -163,6 +163,7 @@ function App() {
     <div className={`App ${darkMode ? 'dark' : ''}`}>
       <div className="container">
         <h1>ChessXplain.AI</h1>
+        <p>Authors: @jalpp GPL-3.0 license </p>
         <div className="icon-container">
           <a href="https://github.com/jalpp/chessxplain" rel="noreferrer"  target="_blank"><i class="fab fa-github fa-2x"></i></a>
           <a href="https://discord.gg/tpvgxn5eZC" rel="noreferrer"  target="_blank"><i class="fab fa-discord fa-2x"></i></a>

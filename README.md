@@ -81,6 +81,10 @@ Start the server
 
 - PGN support
 
+## Authors:
+
+@jalpp
+
 
 
 
