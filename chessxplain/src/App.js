@@ -16,6 +16,8 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
+import Typography from '@mui/material/Typography';
+
 //import CircularProgress from '@mui/material/CircularProgress';
 
 
@@ -177,7 +179,11 @@ function App() {
   return (
     <div className={`App ${darkMode ? 'dark' : ''}`}>
       <div className="container">
-        <h1>ChessXplain.AI</h1>
+      
+        <Typography variant="h4" component="h2">
+          ChessXplain.AI
+        </Typography>
+
         <p>Authors: @jalpp GPL-3.0 license </p>
         <div className="icon-container">
           <a href="https://github.com/jalpp/chessxplain" rel="noreferrer"  target="_blank"><i className="fab fa-github fa-2x"></i></a>
@@ -204,10 +210,10 @@ function App() {
           <div className="buttons-container">
             <ButtonGroup variant="outlined" aria-label="Action button group">
             <Button variant='outlined' size="small" onClick={handleClick} startIcon={<SetMealIcon/>}>Stockfish</Button>
-            <Button variant='outlined' size="small" onClick={() => handleGPTGameClick} startIcon={<GamepadIcon/>}>Game</Button>
-            <Button variant='outlined' size="small" onClick={() => handleGPTClick} startIcon={<SmartToyIcon/>}>GPT 3.5 </Button>
-            <Button variant='outlined' size="small" onClick={() => handleLAMAClick} startIcon={<SmartToyIcon/>}>Bard </Button>
-            <Button variant='outlined' size="small" onClick={() => handleConvoClick} startIcon={<SmartToyIcon/>}>GPT </Button>
+            <Button variant='outlined' size="small" onClick={() => handleGPTGameClick()} startIcon={<GamepadIcon/>}>Game</Button>
+            <Button variant='outlined' size="small" onClick={() => handleGPTClick()} startIcon={<SmartToyIcon/>}>GPT 3.5 </Button>
+            <Button variant='outlined' size="small" onClick={() => handleLAMAClick()} startIcon={<SmartToyIcon/>}>Bard </Button>
+            <Button variant='outlined' size="small" onClick={() => handleConvoClick()} startIcon={<SmartToyIcon/>}>GPT </Button>
             </ButtonGroup>
            <ButtonGroup variant='outlined' aria-label='Settings button group'>
              <Button size="small" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Brown</Button>
