@@ -7,6 +7,17 @@ import handleLama from './Ai/LAMAAi.js';
 import handleGPT from './Ai/GPTAi.js';
 import handleGPTGame from './Ai/GPTAiGame.js';
 import Chess from "chess.js";
+import Button from '@mui/material/Button';
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import SetMealIcon from '@mui/icons-material/SetMeal';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import GamepadIcon from '@mui/icons-material/Gamepad';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
+//import CircularProgress from '@mui/material/CircularProgress';
+
 
 function App() {
   const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
@@ -104,6 +115,7 @@ function App() {
 
   
   const handleConvoClick = async () => {
+   
     setConvo('Please wait this can take up to 2 mins...');
     try{
 
@@ -142,6 +154,8 @@ function App() {
 
 
   const handleClick = async () => {
+   
+   
     try {
       const evaluationValue = await fetchEvaluation('eval', '13', fen);
       const topLine = await fetchEvaluation('lines', '13', fen)
@@ -166,8 +180,8 @@ function App() {
         <h1>ChessXplain.AI</h1>
         <p>Authors: @jalpp GPL-3.0 license </p>
         <div className="icon-container">
-          <a href="https://github.com/jalpp/chessxplain" rel="noreferrer"  target="_blank"><i class="fab fa-github fa-2x"></i></a>
-          <a href="https://discord.gg/tpvgxn5eZC" rel="noreferrer"  target="_blank"><i class="fab fa-discord fa-2x"></i></a>
+          <a href="https://github.com/jalpp/chessxplain" rel="noreferrer"  target="_blank"><i className="fab fa-github fa-2x"></i></a>
+          <a href="https://discord.gg/tpvgxn5eZC" rel="noreferrer"  target="_blank"><i className="fab fa-discord fa-2x"></i></a>
         </div>
         <p> Explore AI model's chess evaluation based on given FEN and your Lichess game. </p>
         <div className="controls">
@@ -178,9 +192,7 @@ function App() {
               onChange={handleFenChange}
               placeholder="Enter FEN String..."
             /> 
-            <button onClick={toggleDarkMode}>
-              {darkMode ? 'Light Mode' : 'Dark Mode'}
-            </button>
+            <Button variant="outlined" onClick={toggleDarkMode} startIcon={<RotateLeftIcon/>}>{darkMode ? 'Light Mode' : 'Dark Mode'}</Button>
           </div>
           <div className="search-container">
           <input
@@ -190,17 +202,20 @@ function App() {
             /> 
           </div>
           <div className="buttons-container">
-            <button onClick={handleClick}>Get SF FEN Evaluation</button> 
-            <button onClick={() => handleGPTGameClick()}>Get GPT GAME Evaluation</button> 
-            <button onClick={() => handleGPTClick()}> Get FEN GPT 3.5 Eval </button>
-            <button onClick={() => handleLAMAClick()}> Get FEN Bard AI Eval </button>
-            <button onClick={() => handleConvoClick()}>Get FEN GPT 3.5 CONVO-b Eval</button>
-
-            <button onClick={() => changeBoardColor('#C4A484', '#7c3f00')}>Brown Board</button>
-            <button onClick={() => changeBoardColor('#ADD8E6', '#0000d9')}>Blue Board</button>
-            <button onClick={() => changeBoardColor('#edeed1', '#779952')}>Green Board</button>
-            <button onClick={() => resetBoard()}>Reset Board</button>
-            <button onClick={() => changeFlip(flip)}>Flip Board</button>
+            <ButtonGroup variant="outlined" aria-label="Action button group">
+            <Button variant='outlined' size="medium" onClick={handleClick} startIcon={<SetMealIcon/>}>Stockfish</Button>
+            <Button variant='outlined' size="medium" onClick={() => handleGPTGameClick} startIcon={<GamepadIcon/>}>Game Eval</Button>
+            <Button variant='outlined' size="medium" onClick={() => handleGPTClick} startIcon={<SmartToyIcon/>}>GPT 3.5 Fen Eval</Button>
+            <Button variant='outlined' size="medium" onClick={() => handleLAMAClick} startIcon={<SmartToyIcon/>}>Bard Fen Eval </Button>
+            <Button variant='outlined' size="medium" onClick={() => handleConvoClick} startIcon={<SmartToyIcon/>}>GPT Convo Fen Eval </Button>
+            </ButtonGroup>
+           <ButtonGroup variant='outlined' aria-label='Settings button group'>
+             <Button size="medium" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Brown Board</Button>
+            <Button size="medium" onClick={() => changeBoardColor('#ADD8E6', '#0000d9')} startIcon={<ColorLensIcon/>}>Blue Board</Button>
+            <Button size="medium" onClick={() => changeBoardColor('#edeed1', '#779952')} startIcon={<ColorLensIcon/>}>Green Board</Button>
+            <Button size="medium" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset Board</Button>
+            <Button size="medium" onClick={() => changeFlip(flip)} startIcon={<FlipCameraAndroidIcon/>}>Flip Board</Button> 
+           </ButtonGroup>
           </div>
         </div>
         <div className="chessboard-container">
