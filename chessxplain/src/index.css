@@ -88,27 +88,3 @@ body {
 }
 
 
-
-/* media queries */
-@media screen and (max-width: 600px) {
-  /* styles for screens smaller than 600px */
-  body {
-    font-size: 14px;
-  }
-  
-  .container {
-    max-width: 100%;
-    padding: 0 0.5rem;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  /* styles for screens smaller than 400px */
-  body {
-    font-size: 12px;
-  }
-  
-  .container {
-    padding: 0 0.25rem;
-  }
-}
