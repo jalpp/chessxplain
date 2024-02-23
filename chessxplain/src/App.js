@@ -216,14 +216,18 @@ function App() {
             <ButtonGroup variant="outlined" aria-label="Action button group">
             <Button variant='outlined' size="small" onClick={handleClick} startIcon={<SetMealIcon/>}>Calculate Eval</Button>
             <Button variant='outlined' size="small" onClick={() => handleGPTGameClick()} startIcon={<GamepadIcon/>}>Submit Game</Button>
+            </ButtonGroup>
+            <ButtonGroup variant="outlined" aria-label="Action button group">
             <Button variant='outlined' size="small" onClick={() => handleGPTClick()} startIcon={<SmartToyIcon/>}>Trigger GPT 3.5 </Button>
             <Button variant='outlined' size="small" onClick={() => handleLAMAClick()} startIcon={<SmartToyIcon/>}>Trigger Bard </Button>
             <Button variant='outlined' size="small" onClick={() => handleConvoClick()} startIcon={<SmartToyIcon/>}>Trigger GPT Convo </Button>
             </ButtonGroup>
-           <ButtonGroup variant='outlined' aria-label='Settings button group'>
-             <Button size="small" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Set Brown</Button>
+            <ButtonGroup variant="outlined" aria-label="Action button group">
+            <Button size="small" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Set Brown</Button>
             <Button size="small" onClick={() => changeBoardColor('#ADD8E6', '#0000d9')} startIcon={<ColorLensIcon/>}>Set Blue </Button>
             <Button size="small" onClick={() => changeBoardColor('#edeed1', '#779952')} startIcon={<ColorLensIcon/>}>Set Green</Button>
+            </ButtonGroup>
+           <ButtonGroup variant='outlined' aria-label='Settings button group'>
             <Button size="small" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset </Button>
             <Button size="small" onClick={() => changeFlip(flip)} startIcon={<FlipCameraAndroidIcon/>}>Flip </Button> 
            </ButtonGroup>
