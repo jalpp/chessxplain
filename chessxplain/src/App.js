@@ -203,18 +203,18 @@ function App() {
           </div>
           <div className="buttons-container">
             <ButtonGroup variant="outlined" aria-label="Action button group">
-            <Button variant='outlined' size="medium" onClick={handleClick} startIcon={<SetMealIcon/>}>Stockfish</Button>
-            <Button variant='outlined' size="medium" onClick={() => handleGPTGameClick} startIcon={<GamepadIcon/>}>Game Eval</Button>
-            <Button variant='outlined' size="medium" onClick={() => handleGPTClick} startIcon={<SmartToyIcon/>}>GPT 3.5 Fen Eval</Button>
-            <Button variant='outlined' size="medium" onClick={() => handleLAMAClick} startIcon={<SmartToyIcon/>}>Bard Fen Eval </Button>
-            <Button variant='outlined' size="medium" onClick={() => handleConvoClick} startIcon={<SmartToyIcon/>}>GPT Convo Fen Eval </Button>
+            <Button variant='outlined' size="small" onClick={handleClick} startIcon={<SetMealIcon/>}>Stockfish</Button>
+            <Button variant='outlined' size="small" onClick={() => handleGPTGameClick} startIcon={<GamepadIcon/>}>Game</Button>
+            <Button variant='outlined' size="small" onClick={() => handleGPTClick} startIcon={<SmartToyIcon/>}>GPT 3.5 </Button>
+            <Button variant='outlined' size="small" onClick={() => handleLAMAClick} startIcon={<SmartToyIcon/>}>Bard </Button>
+            <Button variant='outlined' size="small" onClick={() => handleConvoClick} startIcon={<SmartToyIcon/>}>GPT </Button>
             </ButtonGroup>
            <ButtonGroup variant='outlined' aria-label='Settings button group'>
-             <Button size="medium" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Brown Board</Button>
-            <Button size="medium" onClick={() => changeBoardColor('#ADD8E6', '#0000d9')} startIcon={<ColorLensIcon/>}>Blue Board</Button>
-            <Button size="medium" onClick={() => changeBoardColor('#edeed1', '#779952')} startIcon={<ColorLensIcon/>}>Green Board</Button>
-            <Button size="medium" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset Board</Button>
-            <Button size="medium" onClick={() => changeFlip(flip)} startIcon={<FlipCameraAndroidIcon/>}>Flip Board</Button> 
+             <Button size="small" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Brown</Button>
+            <Button size="small" onClick={() => changeBoardColor('#ADD8E6', '#0000d9')} startIcon={<ColorLensIcon/>}>Blue </Button>
+            <Button size="small" onClick={() => changeBoardColor('#edeed1', '#779952')} startIcon={<ColorLensIcon/>}>Green</Button>
+            <Button size="small" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset </Button>
+            <Button size="small" onClick={() => changeFlip(flip)} startIcon={<FlipCameraAndroidIcon/>}>Flip </Button> 
            </ButtonGroup>
           </div>
         </div>
