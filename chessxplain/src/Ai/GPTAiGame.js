@@ -7,7 +7,7 @@ const handleGPTGame = async (game) => {
 
 
     const validInput = game.trim();
-    if(validInput.length < 1 || !validInput.includes("https://lichess.org/")){
+    if(validInput.length < 1 || !validInput.includes("https://lichess.org")){
       return "Invalid Lichess game! Please enter proper Lichess game URL!";
     }
 

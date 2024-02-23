@@ -5,7 +5,9 @@ import axios from "axios";
 const promptAiBasedOnGame = async (url) => {
 
 
-    if(url.includes("black") || url.includes("white")){
+    const firstcheck = url.split("/")[3];
+
+    if(url.includes("black") || url.includes("white") || firstcheck.length === 8){
     
         const gameID = url.split("/")[3];
     
@@ -28,11 +30,11 @@ const promptAiBasedOnGame = async (url) => {
        
           }
     
-      }else{
+      }else if(firstcheck.length === 12){
         
         const gameIDz = url.slice(0,-4);
         const id = gameIDz.split("/")[3];
-        console.log(id);
+
         try{
             const options = {
                 method: 'GET',
