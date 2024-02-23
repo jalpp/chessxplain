@@ -218,9 +218,9 @@ function App() {
             <Button variant='outlined' size="small" onClick={() => handleGPTGameClick()} startIcon={<GamepadIcon/>}>Submit Game</Button>
             </ButtonGroup>
             <ButtonGroup variant="outlined" aria-label="Action button group">
-            <Button variant='outlined' size="small" onClick={() => handleGPTClick()} startIcon={<SmartToyIcon/>}>Trigger GPT 3.5 </Button>
-            <Button variant='outlined' size="small" onClick={() => handleLAMAClick()} startIcon={<SmartToyIcon/>}>Trigger Bard </Button>
-            <Button variant='outlined' size="small" onClick={() => handleConvoClick()} startIcon={<SmartToyIcon/>}>Trigger GPT Convo </Button>
+            <Button variant='outlined' size="small" onClick={() => handleGPTClick()} startIcon={<SmartToyIcon/>}>Ask GPT 3.5 </Button>
+            <Button variant='outlined' size="small" onClick={() => handleLAMAClick()} startIcon={<SmartToyIcon/>}>Ask Bard </Button>
+            <Button variant='outlined' size="small" onClick={() => handleConvoClick()} startIcon={<SmartToyIcon/>}>Ask GPT Convo </Button>
             </ButtonGroup>
             <ButtonGroup variant="outlined" aria-label="Action button group">
             <Button size="small" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Set Brown</Button>
