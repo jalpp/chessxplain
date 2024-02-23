@@ -8,7 +8,6 @@ import handleGPT from './Ai/GPTAi.js';
 import handleGPTGame from './Ai/GPTAiGame.js';
 import Chess from "chess.js";
 import Button from '@mui/material/Button';
-import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import SetMealIcon from '@mui/icons-material/SetMeal';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import GamepadIcon from '@mui/icons-material/Gamepad';
@@ -17,6 +16,11 @@ import ColorLensIcon from '@mui/icons-material/ColorLens';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
 import Typography from '@mui/material/Typography';
+import AltRouteIcon from '@mui/icons-material/AltRoute';
+import { Container } from '@mui/material';
+import BedtimeIcon from '@mui/icons-material/Bedtime';
+
+import StarsIcon from '@mui/icons-material/Stars';
 
 //import CircularProgress from '@mui/material/CircularProgress';
 
@@ -180,16 +184,17 @@ function App() {
     <div className={`App ${darkMode ? 'dark' : ''}`}>
       <div className="container">
       
+      
+        <div className="icon-container">
         <Typography variant="h4" component="h2">
           ChessXplain.AI
         </Typography>
-
-        <p>Authors: @jalpp GPL-3.0 license </p>
-        <div className="icon-container">
           <a href="https://github.com/jalpp/chessxplain" rel="noreferrer"  target="_blank"><i className="fab fa-github fa-2x"></i></a>
           <a href="https://discord.gg/tpvgxn5eZC" rel="noreferrer"  target="_blank"><i className="fab fa-discord fa-2x"></i></a>
         </div>
-        <p> Explore AI model's chess evaluation based on given FEN and your Lichess game. </p>
+       <Typography variant='body1' component='body1'>
+        Explore AI models' chess evaluations based on given FEN and Lichess game.
+       </Typography>
         <div className="controls">
           <div className="search-container">
             <input
@@ -198,7 +203,7 @@ function App() {
               onChange={handleFenChange}
               placeholder="Enter FEN String..."
             /> 
-            <Button variant="outlined" onClick={toggleDarkMode} startIcon={<RotateLeftIcon/>}>{darkMode ? 'Light Mode' : 'Dark Mode'}</Button>
+            <Button variant="outlined" onClick={toggleDarkMode} startIcon={<BedtimeIcon/>}>{darkMode ? 'Light Mode' : 'Dark Mode'}</Button>
           </div>
           <div className="search-container">
           <input
@@ -209,16 +214,16 @@ function App() {
           </div>
           <div className="buttons-container">
             <ButtonGroup variant="outlined" aria-label="Action button group">
-            <Button variant='outlined' size="small" onClick={handleClick} startIcon={<SetMealIcon/>}>Stockfish</Button>
-            <Button variant='outlined' size="small" onClick={() => handleGPTGameClick()} startIcon={<GamepadIcon/>}>Game</Button>
-            <Button variant='outlined' size="small" onClick={() => handleGPTClick()} startIcon={<SmartToyIcon/>}>GPT 3.5 </Button>
-            <Button variant='outlined' size="small" onClick={() => handleLAMAClick()} startIcon={<SmartToyIcon/>}>Bard </Button>
-            <Button variant='outlined' size="small" onClick={() => handleConvoClick()} startIcon={<SmartToyIcon/>}>GPT </Button>
+            <Button variant='outlined' size="small" onClick={handleClick} startIcon={<SetMealIcon/>}>Calculate Eval</Button>
+            <Button variant='outlined' size="small" onClick={() => handleGPTGameClick()} startIcon={<GamepadIcon/>}>Submit Game</Button>
+            <Button variant='outlined' size="small" onClick={() => handleGPTClick()} startIcon={<SmartToyIcon/>}>Trigger GPT 3.5 </Button>
+            <Button variant='outlined' size="small" onClick={() => handleLAMAClick()} startIcon={<SmartToyIcon/>}>Trigger Bard </Button>
+            <Button variant='outlined' size="small" onClick={() => handleConvoClick()} startIcon={<SmartToyIcon/>}>Trigger GPT Convo </Button>
             </ButtonGroup>
            <ButtonGroup variant='outlined' aria-label='Settings button group'>
-             <Button size="small" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Brown</Button>
-            <Button size="small" onClick={() => changeBoardColor('#ADD8E6', '#0000d9')} startIcon={<ColorLensIcon/>}>Blue </Button>
-            <Button size="small" onClick={() => changeBoardColor('#edeed1', '#779952')} startIcon={<ColorLensIcon/>}>Green</Button>
+             <Button size="small" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Set Brown</Button>
+            <Button size="small" onClick={() => changeBoardColor('#ADD8E6', '#0000d9')} startIcon={<ColorLensIcon/>}>Set Blue </Button>
+            <Button size="small" onClick={() => changeBoardColor('#edeed1', '#779952')} startIcon={<ColorLensIcon/>}>Set Green</Button>
             <Button size="small" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset </Button>
             <Button size="small" onClick={() => changeFlip(flip)} startIcon={<FlipCameraAndroidIcon/>}>Flip </Button> 
            </ButtonGroup>
@@ -240,26 +245,75 @@ function App() {
           />
         </div>
         <div>
-          <p> Stockfish Eval: </p>
-          <p>{evaluation.data}</p>
+        <Container>
+        <Typography variant="h6" component="h6" >
+          Stockfish Evaluation:
+        </Typography>
+        <SetMealIcon/>
+        </Container>
+        <Typography variant='body1' component="body1">
+          {evaluation.data}
+        </Typography>
           <hr></hr>
-          <p> Stockfish Top Line: </p>
-          <p>{topline.data}</p>
+          <Container>
+          <Typography variant='h6' component='h6'>
+           Stockfish Top Line: 
+          </Typography>
+          <AltRouteIcon/>
+          </Container>
+          <Typography variant='body1' component='body1'>
+            {topline.data}
+          </Typography>
           <hr></hr>
-          <p> Stockfish Best Move: </p>
-          <p>{bestmove.data}</p>
+          <Container>
+          <Typography variant='h6' component='h6'>
+           Stockfish Bestmove: 
+          </Typography>
+          <StarsIcon/>
+          </Container>
+          <Typography variant='body1' component='body1'>
+            {bestmove.data}
+          </Typography>
           <hr></hr>
-          <p> GPT 3.5 FEN Eval: </p>
-          <p>{gpteval}</p>
+          <Container>
+          <Typography variant='h6' component='h6'>
+           GPT Game Evaluation:
+          </Typography>
+          <GamepadIcon/>
+          </Container>
+          <Typography variant='body1' component='body1'>
+            {lichessgame}
+          </Typography>
           <hr></hr>
-          <p>GPT 3.5 Game Eval: </p>
-          <p> Game to be analyzed... {lichessgame}</p>
+          <Container>
+          <Typography variant='h6' component='h6'>
+           GPT Evaluation:
+          </Typography>
+          <SmartToyIcon/>
+          </Container>
+          <Typography variant='body1' component='body1'>
+            {gpteval}
+          </Typography>
           <hr></hr>
-          <p> Bard Ai FEN Eval: </p>
-          <p> {getevalama}</p>
+          <Container>
+          <Typography variant='h6' component='h6'>
+           Bard Evaluation:
+          </Typography>
+          <SmartToyIcon/>
+          </Container>
+          <Typography variant='body1' component='body1'>
+            {getevalama}
+          </Typography>
           <hr></hr>
-          <p> GPT 3.5 CONVO-b FEN Eval</p>
-          <p> {getconvo}</p>
+          <Container>
+          <Typography variant='h6' component='h6'>
+           GPT Convo Evaluation:
+          </Typography>
+          <SmartToyIcon/>
+          </Container>
+          <Typography variant='body1' component='body1'>
+            {getconvo}
+          </Typography>
           <hr></hr>
           
         </div>
