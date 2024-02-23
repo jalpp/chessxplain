@@ -208,6 +208,7 @@ function App() {
           <div className="search-container">
           <input
               type="text"
+              value={lichessgame}
               onChange={handleGameChange}
               placeholder="Enter Lichess game URL"
             /> 

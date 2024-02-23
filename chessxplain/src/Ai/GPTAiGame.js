@@ -6,16 +6,17 @@ import promptAiBasedOnGeneralGame from "../PromptLogic/promptAiBasedOnGeneralGam
 const handleGPTGame = async (game) => {
 
 
-    if(game.length < 1 || !game.includes("https://lichess.org/")){
+    const validInput = game.trim();
+    if(validInput.length < 1 || !validInput.includes("https://lichess.org/")){
       return "Invalid Lichess game! Please enter proper Lichess game URL!";
     }
 
 
   
-    let ask = await promptAiBasedOnGame(game);
+    let ask = await promptAiBasedOnGame(validInput);
 
     if(ask === null){
-      ask = await promptAiBasedOnGeneralGame(game);
+      ask = await promptAiBasedOnGeneralGame(validInput);
     }
 
    
