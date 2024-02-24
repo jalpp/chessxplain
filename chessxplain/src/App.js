@@ -20,6 +20,7 @@ import AltRouteIcon from '@mui/icons-material/AltRoute';
 import { Container } from '@mui/material';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import StarsIcon from '@mui/icons-material/Stars';
+import LoadingComponent from './ui/load.js';
 
 //import CircularProgress from '@mui/material/CircularProgress';
 
@@ -39,7 +40,11 @@ function App() {
   const [getconvo, setConvo] = useState('');
   const [lichessgame, setLichessgame] = useState('');
   const [game, setGame] = useState(new Chess());
-  //const [arrow, setArrow] = useState([['e2', 'e4']]);
+  const [loadgame, setLoadGame] = useState(false);
+  const [loadgptclick, setLoadgptclick] = useState(false);
+  const [loadlamaclick, setLoadlamaclick] = useState(false);
+  const [loadconvoclick, setLoadconvoclick] = useState(false);
+
   const makeAMove = (move) => {
     const gameCopy = { ...game };
     const result = gameCopy.move(move);
@@ -57,42 +62,62 @@ function App() {
     // illegal move
     if (move === null) return false;
     setFen(game.fen());
+    console.log(game.ascii())
     await handleClick();
-   // await makeArrow();
+    //setTimeout(makeEngineMove, 200);
+    console.log(game.ascii())
     await handleGPTClick();
-    //await makeAEngineMove();
+
     return true;
   }
+
+
+  // const makeEngineMove = async () => {
+  //   if(game.turn() === 'b'){
+  //   const moveb = await fetchEvaluation('bestmove','13',game.fen());
+  //   const asm = moveb.data;
+  //   const fromm = asm.split(' ')[1].substring(0,2);
+  //   const toom = asm.split(' ')[1].substring(2,4);
+  //   const makeMove = makeAMove({from: fromm, to: toom, promotion: "q",});
+  //   }else if(game.turn() === 'w'){
+  //     const moveb = await fetchEvaluation('bestmove','13',game.fen());
+  //   const asm = moveb.data;
+  //   const fromm = asm.split(' ')[3].substring(0,2);
+  //   const toom = asm.split(' ')[3].substring(2,4);
+  //   const makeMove = makeAMove({from: fromm, to: toom, promotion: "q",});
+  //   }
+  // }
 
 
   // const makeArrow = async() => {
     
   //   let arrows = [];
-  //   let tuple = [];
+  //   let tuplein = [];
 
-  //   if(!fen.includes('w')){
+  //   if(fen.includes('b')){
   //   const moveg = await fetchEvaluation('bestmove', '13', fen);
   //   const actualMove = moveg.data;
 
-  //   tuple.push(actualMove.split(' ')[1].substring(0,2));
-  //   tuple.push(actualMove.split(' ')[1].substring(2,4));
+  //   tuplein.push(actualMove.split(' ')[1].substring(0,2));
+  //   tuplein.push(actualMove.split(' ')[1].substring(2,4));
   //   console.log(tuple)
-  //   setArrow(arrows[tuple]);
+    
+  //   setTuple(arrows[tuplein])
     
   //   }else{
   //   const moveg = await fetchEvaluation('bestmove', '13', fen);
   //   const actualMove = moveg.data;
-  //   tuple.push(actualMove.split(' ')[3].substring(0,2));
-  //   tuple.push(actualMove.split(' ')[3].substring(2,4));
+  //   tuplein.push(actualMove.split(' ')[3].substring(0,2));
+  //   tuplein.push(actualMove.split(' ')[3].substring(2,4));
   //   console.log(tuple)
-  //   setArrow(arrows[tuple]);
+  //   setTuple(arrows[tuplein])
+    
   //   }
   // }
 
   const handleFenChange = async (event) => {
-    setFen(event.target.value);
-    const newgame = new Chess(event.target.value);
-    setGame(newgame);
+    game.load(event.target.value)
+    setFen(game.fen());
   };
 
   const handleGameChange = (event) => {
@@ -109,11 +134,13 @@ function App() {
   };
 
   const handleGPTClick = async () => {
+    setLoadgptclick(true)
     setGpteval('Thinking..');
     try{
       
-      const gptanswer = await handleGPT(fen);
+      const gptanswer = await handleGPT(game.fen());
       setGpteval(gptanswer);
+      setLoadgptclick(false);
 
     }catch(error){
       setGpteval('Request timed out! Please try again after some mins!')
@@ -123,10 +150,12 @@ function App() {
 
   const handleGPTGameClick = async () => {
     setLichessgame('Understanding the game...');
+    setLoadGame(true)
     try{
       
       const gptanswer = await handleGPTGame(lichessgame);
       setLichessgame(gptanswer);
+      setLoadGame(false);
 
     }catch(error){
       setLichessgame('Request timed out! Please ensure FEN is valid or try after some mins!')
@@ -137,10 +166,12 @@ function App() {
 
   const handleLAMAClick = async () => {
     setEvalama('Thinking...');
+    setLoadlamaclick(true)
     try{
 
-      const getlamanswer = await handleLama(fen);
+      const getlamanswer = await handleLama(game.fen());
       setEvalama(getlamanswer);
+      setLoadlamaclick(false)
     }catch(error){
       setEvalama('Request timed out! Please ensure FEN is valid or try after some mins!')
     }
@@ -150,10 +181,12 @@ function App() {
   const handleConvoClick = async () => {
    
     setConvo('Thinking...');
+    setLoadconvoclick(true)
     try{
 
-      const getbardans = await handleConvo(fen);
+      const getbardans = await handleConvo(game.fen());
       setConvo(getbardans);
+      setLoadconvoclick(false)
     }catch(error){
       setConvo('Request timed out! Please ensure FEN is valid or try after some mins!')
     }
@@ -190,9 +223,9 @@ function App() {
    
    
     try {
-      const evaluationValue = await fetchEvaluation('eval', '13', fen);
-      const topLine = await fetchEvaluation('lines', '13', fen)
-      const bestmove = await fetchEvaluation('bestmove', '13', fen)
+      const evaluationValue = await fetchEvaluation('eval', '13', game.fen());
+      const topLine = await fetchEvaluation('lines', '13', game.fen())
+      const bestmove = await fetchEvaluation('bestmove', '13', game.fen())
 
   
       setEvaluation(evaluationValue);
@@ -257,9 +290,9 @@ function App() {
             <Button size="small" onClick={() => changeBoardColor('#a6bdde', '#1763d1')} startIcon={<ColorLensIcon/>}>Set Blue </Button>
             <Button size="small" onClick={() => changeBoardColor('#edeed1', '#779952')} startIcon={<ColorLensIcon/>}>Set Green</Button>
             </ButtonGroup>
-           <ButtonGroup variant='outlined' aria-label='Settings button group'>
-            <Button size="small" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset </Button>
-            <Button size="small" onClick={() => changeFlip(flip)} startIcon={<FlipCameraAndroidIcon/>}>Flip </Button> 
+            <ButtonGroup variant='outlined' aria-label='Settings button group'>
+            <Button size="small" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset</Button>
+            <Button size="small" onClick={() => changeFlip()} startIcon={<FlipCameraAndroidIcon/>}>Flip </Button> 
            </ButtonGroup>
           </div>
         </div>
@@ -275,6 +308,7 @@ function App() {
             arePremovesAllowed={false}
             onPieceDrop={onDrop}
             areArrowsAllowed={true}
+           
 
             
             
@@ -317,21 +351,24 @@ function App() {
            GPT Game Evaluation:
           </Typography>
           <GamepadIcon/>
+         
           </Container>
+          
           <Typography variant='body1' component='body1'>
             {lichessgame}
           </Typography>
-          <hr></hr>
+          <LoadingComponent loading={loadgame}></LoadingComponent>
           <Container>
           <Typography variant='h6' component='h6'>
            Live GPT Evaluation:
           </Typography>
           <SmartToyIcon/>
           </Container>
+          
           <Typography variant='body1' component='body1'>
             {gpteval}
           </Typography>
-          <hr></hr>
+          <LoadingComponent loading={loadgptclick}></LoadingComponent>
           <Container>
           <Typography variant='h6' component='h6'>
            Bard Evaluation:
@@ -341,7 +378,7 @@ function App() {
           <Typography variant='body1' component='body1'>
             {getevalama}
           </Typography>
-          <hr></hr>
+          <LoadingComponent loading={loadlamaclick}></LoadingComponent>
           <Container>
           <Typography variant='h6' component='h6'>
            GPT Convo Evaluation:
@@ -351,7 +388,7 @@ function App() {
           <Typography variant='body1' component='body1'>
             {getconvo}
           </Typography>
-          <hr></hr>
+          <LoadingComponent loading={loadconvoclick}></LoadingComponent>
           
         </div>
       </div>
