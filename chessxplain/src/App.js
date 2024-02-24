@@ -289,14 +289,14 @@ function App() {
             <input
               type="text"
               value={fen}
-              onChange={() => handleFenChange}
+              onChange={() => handleFenChange()}
               placeholder="Enter FEN String..."
             />   
           </div>
           <div className="search-container">
           <input
               type="text"
-              onChange={handleGameChange}
+              onChange={() => handleGameChange()}
               placeholder="Enter Lichess game URL"
             /> 
           </div>
@@ -347,9 +347,9 @@ function App() {
             <FormGroup>
               <FormControlLabel control={ <Switch checked={autoengine} onChange={handleSwitchChange} inputProps={{ 'aria-label': 'controlled' }}/>} label="Live Analyzer" />
             </FormGroup>
-            <FormGroup>
+            {/* <FormGroup>
               <FormControlLabel control={ <Switch checked={livemode} onChange={handleSwitchLive} inputProps={{ 'aria-label': 'controlled-t' }}/>} label="Auto Play Topline" />
-            </FormGroup>
+            </FormGroup> */}
           
            </ButtonGroup>
         </div>
