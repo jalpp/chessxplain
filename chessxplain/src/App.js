@@ -21,6 +21,9 @@ import { Container } from '@mui/material';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import StarsIcon from '@mui/icons-material/Stars';
 import LoadingComponent from './ui/load.js';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 //import CircularProgress from '@mui/material/CircularProgress';
 
@@ -44,6 +47,18 @@ function App() {
   const [loadgptclick, setLoadgptclick] = useState(false);
   const [loadlamaclick, setLoadlamaclick] = useState(false);
   const [loadconvoclick, setLoadconvoclick] = useState(false);
+  const [fishloading, setFishloading] = useState(false);
+  const [autoengine, setAutoEngine] = useState(true);
+  const [livemode, setLiveMode] = useState(true);
+
+
+  const handleSwitchLive = (event) => {
+    setLiveMode(event.target.checked);
+  }
+
+  const handleSwitchChange = (event) => {
+    setAutoEngine(event.target.checked);
+  }
 
   const makeAMove = (move) => {
     const gameCopy = { ...game };
@@ -62,31 +77,38 @@ function App() {
     // illegal move
     if (move === null) return false;
     setFen(game.fen());
-    console.log(game.ascii())
-    await handleClick();
-    //setTimeout(makeEngineMove, 200);
-    console.log(game.ascii())
-    await handleGPTClick();
+
+     if(livemode){
+      setTimeout(() => {
+        makeEngineMove();
+      }, 200);
+       
+     }
+    
+     if(autoengine){
+     await handleClick();
+     await handleGPTClick();
+     }
 
     return true;
   }
 
 
-  // const makeEngineMove = async () => {
-  //   if(game.turn() === 'b'){
-  //   const moveb = await fetchEvaluation('bestmove','13',game.fen());
-  //   const asm = moveb.data;
-  //   const fromm = asm.split(' ')[1].substring(0,2);
-  //   const toom = asm.split(' ')[1].substring(2,4);
-  //   const makeMove = makeAMove({from: fromm, to: toom, promotion: "q",});
-  //   }else if(game.turn() === 'w'){
-  //     const moveb = await fetchEvaluation('bestmove','13',game.fen());
-  //   const asm = moveb.data;
-  //   const fromm = asm.split(' ')[3].substring(0,2);
-  //   const toom = asm.split(' ')[3].substring(2,4);
-  //   const makeMove = makeAMove({from: fromm, to: toom, promotion: "q",});
-  //   }
-  // }
+  const makeEngineMove = async () => {
+    if(game.turn() === 'b'){
+    const moveb = await fetchEvaluation('bestmove','13',game.fen());
+    const asm = moveb.data;
+    const fromm = asm.split(' ')[1].substring(0,2);
+    const toom = asm.split(' ')[1].substring(2,4);
+    makeAMove({from: fromm, to: toom, promotion: "q",});
+    }else if(game.turn() === 'w'){
+      const moveb = await fetchEvaluation('bestmove','13',game.fen());
+    const asm = moveb.data;
+    const fromm = asm.split(' ')[3].substring(0,2);
+    const toom = asm.split(' ')[3].substring(2,4);
+    makeAMove({from: fromm, to: toom, promotion: "q",});
+    }
+  }
 
 
   // const makeArrow = async() => {
@@ -144,6 +166,7 @@ function App() {
 
     }catch(error){
       setGpteval('Request timed out! Please try again after some mins!')
+      setLoadgptclick(false);
     }
 
   }
@@ -159,6 +182,7 @@ function App() {
 
     }catch(error){
       setLichessgame('Request timed out! Please ensure FEN is valid or try after some mins!')
+      setLoadGame(false);
     }
 
   }
@@ -174,6 +198,7 @@ function App() {
       setLoadlamaclick(false)
     }catch(error){
       setEvalama('Request timed out! Please ensure FEN is valid or try after some mins!')
+      setLoadlamaclick(false)
     }
   }
 
@@ -189,6 +214,7 @@ function App() {
       setLoadconvoclick(false)
     }catch(error){
       setConvo('Request timed out! Please ensure FEN is valid or try after some mins!')
+      setLoadconvoclick(false)
     }
   }
 
@@ -198,8 +224,8 @@ function App() {
 
 
 
-  const changeFlip = (flipp) => {
-    if(flipp === 'white'){
+  const changeFlip = () => {
+    if(flip === 'white'){
       setflip('black');
     }else{
       setflip('white');
@@ -221,7 +247,7 @@ function App() {
 
   const handleClick = async () => {
    
-   
+    setFishloading(true);
     try {
       const evaluationValue = await fetchEvaluation('eval', '13', game.fen());
       const topLine = await fetchEvaluation('lines', '13', game.fen())
@@ -231,13 +257,14 @@ function App() {
       setEvaluation(evaluationValue);
       setTopline(topLine);
       setBestmove(bestmove)
+      setFishloading(false);
 
     } catch (error) {
       console.error('Error handling evaluation:', error);
       setEvaluation('Error! Please try again later');
       setTopline('Error! Please try again later');
       setBestmove('Error! Please try again later')
-
+      setFishloading(false);
     }
   };
 
@@ -264,8 +291,7 @@ function App() {
               value={fen}
               onChange={() => handleFenChange}
               placeholder="Enter FEN String..."
-            /> 
-            <Button variant="outlined" onClick={toggleDarkMode} startIcon={<BedtimeIcon/>}>{darkMode ? 'Light Mode' : 'Dark Mode'}</Button>
+            />   
           </div>
           <div className="search-container">
           <input
@@ -275,24 +301,23 @@ function App() {
             /> 
           </div>
           <div className="buttons-container">
-            <ButtonGroup variant="outlined" aria-label="Action button group">
+            <ButtonGroup variant="text" aria-label="Action button group">
             <Button variant='outlined' size="small" onClick={handleClick} startIcon={<SetMealIcon/>}>Calculate Eval</Button>
             <Button variant='outlined' size="small" onClick={() => handleGPTGameClick()} startIcon={<GamepadIcon/>}>Submit Game</Button>
             </ButtonGroup>
-            <ButtonGroup variant="outlined" aria-label="Action button group">
+            <ButtonGroup variant="text" aria-label="Action button Ai group">
             <Button variant='outlined' size="small" onClick={() => handleGPTClick()} startIcon={<SmartToyIcon/>}>Ask GPT 3.5 </Button>
             <Button variant='outlined' size="small" onClick={() => handleLAMAClick()} startIcon={<SmartToyIcon/>}>Ask Bard </Button>
             <Button variant='outlined' size="small" onClick={() => handleConvoClick()} startIcon={<SmartToyIcon/>}>Ask GPT Convo </Button>
             </ButtonGroup>
-            <ButtonGroup variant="outlined" aria-label="Action button group">
+            <ButtonGroup variant="text" aria-label="Action button color group">
             <Button size="small" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Set Brown</Button>
             <Button size="small" onClick={() => changeBoardColor('#8797af', '#56667a')} startIcon={<ColorLensIcon/>}>Set Grey </Button>
             <Button size="small" onClick={() => changeBoardColor('#a6bdde', '#1763d1')} startIcon={<ColorLensIcon/>}>Set Blue </Button>
             <Button size="small" onClick={() => changeBoardColor('#edeed1', '#779952')} startIcon={<ColorLensIcon/>}>Set Green</Button>
             </ButtonGroup>
-            <ButtonGroup variant='outlined' aria-label='Settings button group'>
-            <Button size="small" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset</Button>
-            <Button size="small" onClick={() => changeFlip()} startIcon={<FlipCameraAndroidIcon/>}>Flip </Button> 
+            <ButtonGroup variant="text" aria-label='Settings button group'>
+            <Button variant="outlined" onClick={toggleDarkMode} startIcon={<BedtimeIcon/>}>{darkMode ? 'Light Mode' : 'Dark Mode'}</Button> 
            </ButtonGroup>
           </div>
         </div>
@@ -315,6 +340,19 @@ function App() {
             
           />
         </div>
+        <div className='buttons-container'>
+        <ButtonGroup variant="text" aria-label='Settings button group'>
+            <Button size="medium" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset</Button>
+            <Button size="medium" onClick={() => changeFlip()} startIcon={<FlipCameraAndroidIcon/>}>Flip </Button>
+            <FormGroup>
+              <FormControlLabel control={ <Switch checked={autoengine} onChange={handleSwitchChange} inputProps={{ 'aria-label': 'controlled' }}/>} label="Live Analyzer" />
+            </FormGroup>
+            <FormGroup>
+              <FormControlLabel control={ <Switch checked={livemode} onChange={handleSwitchLive} inputProps={{ 'aria-label': 'controlled-t' }}/>} label="Auto Play Topline" />
+            </FormGroup>
+          
+           </ButtonGroup>
+        </div>
         <div>
         <Container>
         <Typography variant="h6" component="h6" >
@@ -325,7 +363,7 @@ function App() {
         <Typography variant='body1' component="body1">
           {evaluation.data}
         </Typography>
-          <hr></hr>
+         <LoadingComponent loading={fishloading}/>
           <Container>
           <Typography variant='h6' component='h6'>
            Stockfish Top Line: 
@@ -335,7 +373,7 @@ function App() {
           <Typography variant='body1' component='body1'>
             {topline.data}
           </Typography>
-          <hr></hr>
+         <LoadingComponent loading={fishloading}/>
           <Container>
           <Typography variant='h6' component='h6'>
            Stockfish Bestmove: 
