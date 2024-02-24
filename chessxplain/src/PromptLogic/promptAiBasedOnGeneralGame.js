@@ -24,7 +24,7 @@ const promptAiBasedOnGeneralGame = async (url) => {
               
             const res = await axios.request(options);
             return `The game between player ${res.data.players.white.user.name} playing white vs player ${res.data.players.black.user.name} playing black the game ends in 
-            ${res.data.winner} winning the game, the games moves were ${res.data.moves}, the time control for the game was ${res.data.speed}, the ${res.data.opening.name} opening was played, provide ways how would the game go, which plans both players can have, provide summary of what I told you`  
+            ${res.data.winner} winning the game, the games moves were ${res.data.moves}, the time control for the game was ${res.data.speed}, the ${res.data.opening.name} opening was played, explain to me how would the opening go with games, explain how it will help both players`  
           }catch(error){
         
             return null;
@@ -47,7 +47,7 @@ const promptAiBasedOnGeneralGame = async (url) => {
               
             const res = await axios.request(options);
             return `The game between player ${res.data.players.white.user.name} playing white vs player ${res.data.players.black.user.name} playing black the game ends in 
-            ${res.data.winner} winning the game, the games moves were ${res.data.moves}, the time control for the game was ${res.data.speed}, the ${res.data.opening.name} opening was played, provide ways how would the game go, which plans both players can have, provide summary of what I told you`  
+            ${res.data.winner} winning the game, the games moves were ${res.data.moves}, the time control for the game was ${res.data.speed}, the ${res.data.opening.name} opening was played, explain to me how would the opening go with games, explain how it will help both players`  
           }catch(error){
          
             return null;

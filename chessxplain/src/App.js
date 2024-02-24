@@ -19,7 +19,6 @@ import Typography from '@mui/material/Typography';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import { Container } from '@mui/material';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
-
 import StarsIcon from '@mui/icons-material/Stars';
 
 //import CircularProgress from '@mui/material/CircularProgress';
@@ -40,7 +39,7 @@ function App() {
   const [getconvo, setConvo] = useState('');
   const [lichessgame, setLichessgame] = useState('');
   const [game, setGame] = useState(new Chess());
-
+  //const [arrow, setArrow] = useState([['e2', 'e4']]);
   const makeAMove = (move) => {
     const gameCopy = { ...game };
     const result = gameCopy.move(move);
@@ -48,7 +47,7 @@ function App() {
     return result; // null if the move was illegal, the move object if the move was legal
   }
 
-  const onDrop = (sourceSquare, targetSquare) => {
+  const onDrop = async (sourceSquare, targetSquare) => {
     const move = makeAMove({
       from: sourceSquare,
       to: targetSquare,
@@ -58,14 +57,42 @@ function App() {
     // illegal move
     if (move === null) return false;
     setFen(game.fen());
+    await handleClick();
+   // await makeArrow();
+    await handleGPTClick();
+    //await makeAEngineMove();
     return true;
   }
 
-  const handleFenChange = (event) => {
+
+  // const makeArrow = async() => {
+    
+  //   let arrows = [];
+  //   let tuple = [];
+
+  //   if(!fen.includes('w')){
+  //   const moveg = await fetchEvaluation('bestmove', '13', fen);
+  //   const actualMove = moveg.data;
+
+  //   tuple.push(actualMove.split(' ')[1].substring(0,2));
+  //   tuple.push(actualMove.split(' ')[1].substring(2,4));
+  //   console.log(tuple)
+  //   setArrow(arrows[tuple]);
+    
+  //   }else{
+  //   const moveg = await fetchEvaluation('bestmove', '13', fen);
+  //   const actualMove = moveg.data;
+  //   tuple.push(actualMove.split(' ')[3].substring(0,2));
+  //   tuple.push(actualMove.split(' ')[3].substring(2,4));
+  //   console.log(tuple)
+  //   setArrow(arrows[tuple]);
+  //   }
+  // }
+
+  const handleFenChange = async (event) => {
     setFen(event.target.value);
     const newgame = new Chess(event.target.value);
     setGame(newgame);
-    setLichessgame('');
   };
 
   const handleGameChange = (event) => {
@@ -82,7 +109,7 @@ function App() {
   };
 
   const handleGPTClick = async () => {
-    setGpteval('Please wait this can take up to 2 mins...');
+    setGpteval('Thinking..');
     try{
       
       const gptanswer = await handleGPT(fen);
@@ -95,7 +122,7 @@ function App() {
   }
 
   const handleGPTGameClick = async () => {
-    setLichessgame('Please wait this can take up to 2 mins...');
+    setLichessgame('Understanding the game...');
     try{
       
       const gptanswer = await handleGPTGame(lichessgame);
@@ -109,7 +136,7 @@ function App() {
 
 
   const handleLAMAClick = async () => {
-    setEvalama('Please wait this can take up to 2 mins...');
+    setEvalama('Thinking...');
     try{
 
       const getlamanswer = await handleLama(fen);
@@ -122,7 +149,7 @@ function App() {
   
   const handleConvoClick = async () => {
    
-    setConvo('Please wait this can take up to 2 mins...');
+    setConvo('Thinking...');
     try{
 
       const getbardans = await handleConvo(fen);
@@ -166,6 +193,8 @@ function App() {
       const evaluationValue = await fetchEvaluation('eval', '13', fen);
       const topLine = await fetchEvaluation('lines', '13', fen)
       const bestmove = await fetchEvaluation('bestmove', '13', fen)
+
+  
       setEvaluation(evaluationValue);
       setTopline(topLine);
       setBestmove(bestmove)
@@ -187,7 +216,7 @@ function App() {
       
         <div className="icon-container">
         <Typography variant="h4" component="h2">
-          ChessXplain.AI
+          ChessXplain.AI 
         </Typography>
           <a href="https://github.com/jalpp/chessxplain" rel="noreferrer"  target="_blank"><i className="fab fa-github fa-2x"></i></a>
           <a href="https://discord.gg/tpvgxn5eZC" rel="noreferrer"  target="_blank"><i className="fab fa-discord fa-2x"></i></a>
@@ -200,7 +229,7 @@ function App() {
             <input
               type="text"
               value={fen}
-              onChange={handleFenChange}
+              onChange={() => handleFenChange}
               placeholder="Enter FEN String..."
             /> 
             <Button variant="outlined" onClick={toggleDarkMode} startIcon={<BedtimeIcon/>}>{darkMode ? 'Light Mode' : 'Dark Mode'}</Button>
@@ -224,7 +253,8 @@ function App() {
             </ButtonGroup>
             <ButtonGroup variant="outlined" aria-label="Action button group">
             <Button size="small" onClick={() => changeBoardColor('#C4A484', '#7c3f00')} startIcon={<ColorLensIcon/>} >Set Brown</Button>
-            <Button size="small" onClick={() => changeBoardColor('#ADD8E6', '#0000d9')} startIcon={<ColorLensIcon/>}>Set Blue </Button>
+            <Button size="small" onClick={() => changeBoardColor('#8797af', '#56667a')} startIcon={<ColorLensIcon/>}>Set Grey </Button>
+            <Button size="small" onClick={() => changeBoardColor('#a6bdde', '#1763d1')} startIcon={<ColorLensIcon/>}>Set Blue </Button>
             <Button size="small" onClick={() => changeBoardColor('#edeed1', '#779952')} startIcon={<ColorLensIcon/>}>Set Green</Button>
             </ButtonGroup>
            <ButtonGroup variant='outlined' aria-label='Settings button group'>
@@ -244,6 +274,9 @@ function App() {
             allowDragOutsideBoard={false}
             arePremovesAllowed={false}
             onPieceDrop={onDrop}
+            areArrowsAllowed={true}
+
+            
             
             
           />
@@ -291,7 +324,7 @@ function App() {
           <hr></hr>
           <Container>
           <Typography variant='h6' component='h6'>
-           GPT Evaluation:
+           Live GPT Evaluation:
           </Typography>
           <SmartToyIcon/>
           </Container>
