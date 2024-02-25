@@ -402,7 +402,7 @@ function App() {
           <Typography variant='body1' component='body1'>
             {bestmove.data}
           </Typography>
-          <hr></hr>
+          {/* <hr></hr>
           <Container>
           <Typography variant='h6' component='h6'>
            GPT Game Evaluation:
@@ -445,7 +445,7 @@ function App() {
           <Typography variant='body1' component='body1'>
             {getconvo}
           </Typography>
-          <LoadingComponent loading={loadconvoclick}></LoadingComponent>
+          <LoadingComponent loading={loadconvoclick}></LoadingComponent> */}
           
         </div>
       </div>
