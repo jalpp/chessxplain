@@ -50,10 +50,13 @@ function App() {
   const [fishloading, setFishloading] = useState(false);
   const [autoengine, setAutoEngine] = useState(true);
   const [livemode, setLiveMode] = useState(true);
+  const [arrow, setArrow] = useState([['', '']]);
 
 
-  const handleSwitchLive = (event) => {
+  const handleSwitchLive = async (event) => {
     setLiveMode(event.target.checked);
+    await onDrop();
+    
   }
 
   const handleSwitchChange = (event) => {
@@ -100,12 +103,14 @@ function App() {
     const asm = moveb.data;
     const fromm = asm.split(' ')[1].substring(0,2);
     const toom = asm.split(' ')[1].substring(2,4);
+    setArrow([[fromm, toom]]);
     makeAMove({from: fromm, to: toom, promotion: "q",});
     }else if(game.turn() === 'w'){
       const moveb = await fetchEvaluation('bestmove','13',game.fen());
     const asm = moveb.data;
     const fromm = asm.split(' ')[3].substring(0,2);
     const toom = asm.split(' ')[3].substring(2,4);
+    setArrow([[fromm, toom]]);
     makeAMove({from: fromm, to: toom, promotion: "q",});
     }
   }
@@ -242,6 +247,7 @@ function App() {
     setTopline('');
     setEvalama('');
     setLichessgame('');
+    setArrow([['', '']])
   }
 
 
@@ -252,6 +258,19 @@ function App() {
       const evaluationValue = await fetchEvaluation('eval', '13', game.fen());
       const topLine = await fetchEvaluation('lines', '13', game.fen())
       const bestmove = await fetchEvaluation('bestmove', '13', game.fen())
+  
+
+      if(game.turn() === 'w'){
+        const asm = bestmove.data;
+        const fromm = asm.split(' ')[1].substring(0,2);
+        const toom = asm.split(' ')[1].substring(2,4);
+        setArrow([[fromm, toom]]);
+        }else{
+          const asm = bestmove.data;
+          const fromm = asm.split(' ')[1].substring(0,2);
+          const toom = asm.split(' ')[1].substring(2,4);
+          setArrow([[fromm, toom]]);
+        }
 
   
       setEvaluation(evaluationValue);
@@ -333,7 +352,7 @@ function App() {
             arePremovesAllowed={false}
             onPieceDrop={onDrop}
             areArrowsAllowed={true}
-           
+            customArrows={arrow}
 
             
             
@@ -347,9 +366,9 @@ function App() {
             <FormGroup>
               <FormControlLabel control={ <Switch checked={autoengine} onChange={handleSwitchChange} inputProps={{ 'aria-label': 'controlled' }}/>} label="Live Analyzer" />
             </FormGroup>
-            {/* <FormGroup>
-              <FormControlLabel control={ <Switch checked={livemode} onChange={handleSwitchLive} inputProps={{ 'aria-label': 'controlled-t' }}/>} label="Auto Play Topline" />
-            </FormGroup> */}
+            <FormGroup>
+              <FormControlLabel control={ <Switch checked={livemode} onChange={handleSwitchLive} inputProps={{ 'aria-label': 'controlled' }}/>} label="Auto Play Topline" />
+            </FormGroup>
           
            </ButtonGroup>
         </div>
