@@ -142,7 +142,7 @@ function App() {
   //   }
   // }
 
-  const handleFenChange = async (event) => {
+  const handleFenChange = (event) => {
     game.load(event.target.value)
     setFen(game.fen());
   };
@@ -308,14 +308,14 @@ function App() {
             <input
               type="text"
               value={fen}
-              onChange={() => handleFenChange()}
+              onChange={handleFenChange}
               placeholder="Enter FEN String..."
             />   
           </div>
           <div className="search-container">
           <input
               type="text"
-              onChange={() => handleGameChange()}
+              onChange={handleGameChange}
               placeholder="Enter Lichess game URL"
             /> 
           </div>
