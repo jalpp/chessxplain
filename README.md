@@ -28,6 +28,7 @@ Chessxplain is open source platform that allows users to generate AI models like
 - Live analysis board, automous AI evaluations for updated chess board
 - Lichess game text based evaluation by chatGPT 3.5
 - Chess position FEN evaluation by Bard, chatGPT 3.5, chatGPT convo trained model
+- Please note GPT content is in works
 
 
 ## Environment Variables
