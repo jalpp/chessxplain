@@ -1,15 +1,8 @@
 
 
-
-
 const determinegamemode = (fen) => {
 
    let gametype = '';
-
-
-   
-
-
 
    if((fen.includes('q') && fen.includes('b') && fen.includes('n') && fen.includes('r')) && (fen.includes('Q') && fen.includes('B') && fen.includes('N') && fen.includes('R'))){
     gametype = 'middle game';

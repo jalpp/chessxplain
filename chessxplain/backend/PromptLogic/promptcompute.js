@@ -1,9 +1,9 @@
 
-import fetchEvaluation from "../fish/Stockfish";
-import determinegamemode from "./determineGameType";
+import fetchEvaluation from "../fish/Stockfish.js";
+import determinegamemode from "./determineGameType.js";
 
-import searchOpenings from "./queryOpenings";
-import searchTopGame from "./queryTopGames";
+import searchOpenings from "./queryOpenings.js";
+import searchTopGame from "./queryTopGames.js";
 
 const  promptAiBasedOnSF = async (fen) => {
 
