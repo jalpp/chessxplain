@@ -4,7 +4,7 @@ const handleConvo = async (fen) => {
 
   const options = {
       method: 'GET',
-      url: 'http://localhost:5000/api/convo',
+      url: 'http://23.137.104.197:5019/api/convo',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -17,7 +17,6 @@ const handleConvo = async (fen) => {
 
     try{
     const response = await axios.request(options);
-    console.log(response);
     return response;
   } catch (error) {
     console.error(error);

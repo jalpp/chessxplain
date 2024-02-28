@@ -9,7 +9,7 @@ const handleGPTGame = async (game) => {
 
     const options = {
       method: 'GET',
-      url: 'http://localhost:5000/api/bard',
+      url: 'http://23.137.104.197:5019/api/bard',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -22,7 +22,6 @@ const handleGPTGame = async (game) => {
 
     try{
     const response = await axios.request(options);
-    console.log(response);
     return response;
   } catch (error) {
     console.error(error);
