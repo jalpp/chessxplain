@@ -24,6 +24,7 @@ import LoadingComponent from './ui/load.js';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 //import CircularProgress from '@mui/material/CircularProgress';
 
@@ -36,6 +37,8 @@ function App() {
   const [darkColor, setDarkColor] = useState('#779952')
   const [evaluation, setEvaluation] = useState('');
   const [topline, setTopline] = useState('');
+  const [toplinean, setToplinean] = useState('');
+  const [toplineanb, setToplineanb] = useState('');
   const [bestmove, setBestmove] = useState('');
   const [flip, setflip] = useState('white');
   const [gpteval, setGpteval] = useState('');
@@ -50,7 +53,9 @@ function App() {
   const [fishloading, setFishloading] = useState(false);
   const [autoengine, setAutoEngine] = useState(true);
   const [livemode, setLiveMode] = useState(true);
-  const [arrow, setArrow] = useState([['', '']]);
+  const [arrow, setArrow] = useState([['', '', 'green']]);
+
+
 
 
   const handleSwitchLive = async (event) => {
@@ -63,6 +68,8 @@ function App() {
     setAutoEngine(event.target.checked);
   }
 
+
+
   const makeAMove = (move) => {
     const gameCopy = { ...game };
     const result = gameCopy.move(move);
@@ -71,6 +78,7 @@ function App() {
   }
 
   const onDrop = async (sourceSquare, targetSquare) => {
+
     const move = makeAMove({
       from: sourceSquare,
       to: targetSquare,
@@ -103,44 +111,18 @@ function App() {
     const asm = moveb.data;
     const fromm = asm.split(' ')[1].substring(0,2);
     const toom = asm.split(' ')[1].substring(2,4);
-    setArrow([[fromm, toom]]);
+    setArrow([[fromm, toom, 'darkred']]);
     makeAMove({from: fromm, to: toom, promotion: "q",});
     }else if(game.turn() === 'w'){
       const moveb = await fetchEvaluation('bestmove','13',game.fen());
     const asm = moveb.data;
     const fromm = asm.split(' ')[3].substring(0,2);
     const toom = asm.split(' ')[3].substring(2,4);
-    setArrow([[fromm, toom]]);
+    setArrow([[fromm, toom, 'darkred']]);
     makeAMove({from: fromm, to: toom, promotion: "q",});
     }
   }
 
-
-  // const makeArrow = async() => {
-    
-  //   let arrows = [];
-  //   let tuplein = [];
-
-  //   if(fen.includes('b')){
-  //   const moveg = await fetchEvaluation('bestmove', '13', fen);
-  //   const actualMove = moveg.data;
-
-  //   tuplein.push(actualMove.split(' ')[1].substring(0,2));
-  //   tuplein.push(actualMove.split(' ')[1].substring(2,4));
-  //   console.log(tuple)
-    
-  //   setTuple(arrows[tuplein])
-    
-  //   }else{
-  //   const moveg = await fetchEvaluation('bestmove', '13', fen);
-  //   const actualMove = moveg.data;
-  //   tuplein.push(actualMove.split(' ')[3].substring(0,2));
-  //   tuplein.push(actualMove.split(' ')[3].substring(2,4));
-  //   console.log(tuple)
-  //   setTuple(arrows[tuplein])
-    
-  //   }
-  // }
 
   const handleFenChange = (event) => {
     game.load(event.target.value)
@@ -225,7 +207,6 @@ function App() {
 
 
 
-  
 
 
 
@@ -247,6 +228,8 @@ function App() {
     setTopline('');
     setEvalama('');
     setLichessgame('');
+    setToplineanb('');
+    setToplinean('');
     setArrow([['', '']])
   }
 
@@ -257,26 +240,33 @@ function App() {
     try {
       const evaluationValue = await fetchEvaluation('eval', '13', game.fen());
       const topLine = await fetchEvaluation('lines', '13', game.fen())
+      const anotherline = await fetchEvaluation('lines', '11', game.fen())
+      const anotherline2 = await fetchEvaluation('lines', '10', game.fen())
       const bestmove = await fetchEvaluation('bestmove', '13', game.fen())
-  
+      const tellbestmove = bestmove.data.split(' ');
 
       if(game.turn() === 'w'){
+
         const asm = bestmove.data;
         const fromm = asm.split(' ')[1].substring(0,2);
         const toom = asm.split(' ')[1].substring(2,4);
-        setArrow([[fromm, toom]]);
+        setArrow([[fromm, toom, 'green']]);
+        setBestmove('White Best Move: ' + tellbestmove[1]);
         }else{
           const asm = bestmove.data;
           const fromm = asm.split(' ')[1].substring(0,2);
           const toom = asm.split(' ')[1].substring(2,4);
-          setArrow([[fromm, toom]]);
+          setArrow([[fromm, toom, 'green']]);
+          setBestmove('Black Best Move: ' + tellbestmove[1]);
         }
 
   
       setEvaluation(evaluationValue);
       setTopline(topLine);
-      setBestmove(bestmove)
+      setToplinean(anotherline2);
+      setToplineanb(anotherline);
       setFishloading(false);
+
 
     } catch (error) {
       console.error('Error handling evaluation:', error);
@@ -317,8 +307,9 @@ function App() {
               type="text"
               onChange={handleGameChange}
               placeholder="Enter Lichess game URL"
-            /> 
+            />
           </div>
+
           <div className="buttons-container">
             <ButtonGroup variant="text" aria-label="Action button group">
             <Button variant='outlined' size="small" onClick={handleClick} startIcon={<SetMealIcon/>}>Calculate Eval</Button>
@@ -353,16 +344,22 @@ function App() {
             onPieceDrop={onDrop}
             areArrowsAllowed={true}
             customArrows={arrow}
-
-            
-            
-            
+            snapToCursor={false}
+            showPromotionDialog={true}
+            animationDuration={200}
+            boardwidth={10000}
           />
         </div>
         <div className='buttons-container'>
         <ButtonGroup variant="text" aria-label='Settings button group'>
             <Button size="medium" onClick={() => resetBoard()} startIcon={<RestartAltIcon/>}>Reset</Button>
             <Button size="medium" onClick={() => changeFlip()} startIcon={<FlipCameraAndroidIcon/>}>Flip </Button>
+            <Button size="medium" onClick={() => {
+                                                     game.undo();
+                                                     game.undo();
+                                                     setFen(game.fen());
+                                                   }} startIcon={<ArrowBackIcon/>}>Undo</Button>
+
             <FormGroup>
               <FormControlLabel control={ <Switch checked={autoengine} onChange={handleSwitchChange} inputProps={{ 'aria-label': 'controlled' }}/>} label="Live Analyzer" />
             </FormGroup>
@@ -373,6 +370,15 @@ function App() {
            </ButtonGroup>
         </div>
         <div>
+        <Container>
+        <Typography variant="h6" component="h6" >
+                  Move List:
+                </Typography>
+         <Typography variant='body1' component="body1">
+                {game.history().join(' ')}
+                </Typography>
+        </Container>
+        <LoadingComponent loading={fishloading}/>
         <Container>
         <Typography variant="h6" component="h6" >
           Stockfish Evaluation:
@@ -391,7 +397,16 @@ function App() {
           </Container>
           <Typography variant='body1' component='body1'>
             {topline.data}
+           <LoadingComponent loading={fishloading}/>
           </Typography>
+          <Typography variant='body1' component='body1'>
+                {toplinean.data}
+                <LoadingComponent loading={fishloading}/>
+            </Typography>
+            <Typography variant='body1' component='body1'>
+                            {toplineanb.data}
+
+                        </Typography>
          <LoadingComponent loading={fishloading}/>
           <Container>
           <Typography variant='h6' component='h6'>
@@ -400,9 +415,9 @@ function App() {
           <StarsIcon/>
           </Container>
           <Typography variant='body1' component='body1'>
-            {bestmove.data}
+            {bestmove}
           </Typography>
-          <hr></hr>
+          <LoadingComponent loading={fishloading}/>
           <Container>
           <Typography variant='h6' component='h6'>
            GPT Game Evaluation:

@@ -28,8 +28,9 @@ body {
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 70%;
+  width: 100%;
 }
+
 
 .buttons-container button{
   align-items: left;
