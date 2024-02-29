@@ -4,7 +4,7 @@ const handleConvo = async (fen) => {
 
   const options = {
       method: 'GET',
-      url: 'http://23.137.104.197:5019/api/convo',
+      url: 'https://chessxplain.thexhosting.com/api/convo',
       headers: {
         'Content-Type': 'application/json'
       },

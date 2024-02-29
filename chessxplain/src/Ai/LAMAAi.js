@@ -4,7 +4,7 @@ const handleLama = async (fen) => {
 
   const options = {
       method: 'GET',
-      url: 'http://23.137.104.197:5019/api/bard',
+      url: 'https://chessxplain.thexhosting.com/api/bard',
       headers: {
         'Content-Type': 'application/json'
       },
