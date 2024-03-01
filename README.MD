@@ -25,6 +25,7 @@ Chessxplain is open source platform that allows users to generate AI models like
 
 ![chessxplain-design.png](./chessxplain/public/chessxplain-design.png)
 
+
 ## Features
 
 - Light/dark mode toggle
