@@ -26,8 +26,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-//import CircularProgress from '@mui/material/CircularProgress';
-
 
 function App() {
   const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
@@ -54,9 +52,6 @@ function App() {
   const [autoengine, setAutoEngine] = useState(true);
   const [livemode, setLiveMode] = useState(true);
   const [arrow, setArrow] = useState([['', '', 'green']]);
-
-
-
 
   const handleSwitchLive = async (event) => {
     setLiveMode(event.target.checked);

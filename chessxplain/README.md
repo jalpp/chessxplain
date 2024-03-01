@@ -21,25 +21,31 @@ Chessxplain is open source platform that allows users to generate AI models like
  - [Material-UI](https://mui.com/material-ui/)
 
 
+## Design
+
+![chessxplain-design.png](./chessxplain/public/chessxplain-design.png)
+
 ## Features
 
 - Light/dark mode toggle
 - Custom board colors
 - Chess position analysis with Stockfish
-- Live analysis board, automous AI evaluations for updated chess board
+- Auto play topline support
+- Auto Stockfish lines, bestmove, eval with GPT commentary 
+- Live analysis board
 - Lichess game text based evaluation by chatGPT 3.5
-- Chess position FEN evaluation by Bard, chatGPT 3.5, chatGPT convo trained model
+- Support For GPT 3.5, Bard, GPT Conversation trained model
 
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
-
+To run this project, you will need to add the following environment variable to your .env file
+in ``` chessxplain/backend/.env ```
 
 `REACT_APP_GPT_TOKEN`
 
 
-## Run Locally
+## Run Frontend Locally
 
 Clone the project
 
@@ -52,7 +58,7 @@ Go to the project directory
 ```bash
   cd chessxplain
 
-  cd chessxplain
+  cd chessxplain/src
 ```
 
 Install dependencies
@@ -61,12 +67,57 @@ Install dependencies
   npm install
 ```
 
-Start the server
+Start the site
 
 ```bash
   npm run start
 ```
 
+## Run Backend Locally
+
+```
+cd chessxplain/backend
+
+node server.js
+```
+The server should start at port 5019
+
+
+## ChessXplain API
+
+chessxplain backend exposes API for clients to get chess AI explanations
+in REST Protocol, hit API URL ```https://chessxplain.thexhosting.com/api```
+
+### GET gpt text eval based on fen 
+
+```
+send GET request to 
+https://chessxplain.thexhosting.com/api/gpt?fen={your fen}
+
+```
+
+### GET bard text eval based on fen
+
+```
+send GET request to 
+https://chessxplain.thexhosting.com/api/bard?fen={your fen}
+
+```
+
+### GET GPT Convo model text eval based on fen
+
+```
+send GET request to 
+https://chessxplain.thexhosting.com/api/convo?fen={your fen}
+
+```
+### GET GPT model text based game review for Lichess game
+
+```
+send GET request to 
+https://chessxplain.thexhosting.com/api/gamereview?gameurl={lichess game}
+
+```
 
 ## Screenshots
 
@@ -82,6 +133,10 @@ Start the server
 - Lichess study eval by AI
 
 - PGN support
+
+- Better UI
+
+- More API endpoints
 
 ## Authors:
 
