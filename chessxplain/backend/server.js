@@ -49,9 +49,9 @@ const options = {
 try {
     const response = await axios.request(options);
     console.log(response.data);
-    return response.data.result;
+    res.json(response.data.result);
 } catch (error) {
-    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
 }
 
 });
@@ -84,9 +84,9 @@ app.get('/api/bard', async (req, res) => {
   try {
     const response = await axios.request(options);
     console.log(response.data);
-    return response.data.BOT;
+    res.json(response.data.BOT);
   } catch (error) {
-    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -120,9 +120,9 @@ app.get('/api/convo', async (req, res) => {
    try {
      const response = await axios.request(options);
      console.log(response.data)
-     return response.data.result;
+     res.json(response.data.result);
    } catch (error) {
-     console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
    }
 
 });
@@ -168,9 +168,9 @@ app.get('/api/gamereview', async (req, res) => {
   try {
     const response = await axios.request(options);
      console.log(response.data)
-    return response.data.result;
+    res.json(response.data.result);
   } catch (error) {
-    console.error(error);
+     res.status(500).json({ error: 'Internal Server Error' });
 
   }
 

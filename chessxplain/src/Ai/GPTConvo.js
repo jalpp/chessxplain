@@ -17,7 +17,7 @@ const handleConvo = async (fen) => {
 
     try{
     const response = await axios.request(options);
-    return response;
+    return response.reply;
   } catch (error) {
     console.error(error);
   }
