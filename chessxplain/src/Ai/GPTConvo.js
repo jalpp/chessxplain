@@ -1,28 +1,24 @@
-import axios from "axios";
-
 const handleConvo = async (fen) => {
+    const url = `https://chessxplain.thexhosting.com/api/convo?fen=${encodeURIComponent(fen)}`;
 
-  const options = {
-      method: 'GET',
-      url: 'https://chessxplain.thexhosting.com/api/convo',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*', // Add CORS header
+            },
+        });
 
-      params: {
-       fen: fen,
-      }
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
-    };
-
-    try{
-    const response = await axios.request(options);
-    return response.data.reply;
-  } catch (error) {
-    console.error(error);
-  }
-
-
-}
+        const data = await response.json();
+        return data.reply;
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 export default handleConvo;
