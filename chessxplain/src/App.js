@@ -148,6 +148,7 @@ function App() {
     try{
       
       const gptanswer = await handleGPT(game.fen());
+      console.log(gptanswer);
       setGpteval(gptanswer);
       setLoadgptclick(false);
 
@@ -360,6 +361,8 @@ function App() {
                                                      setFen(game.fen());
                                                    }} startIcon={<ArrowBackIcon/>}>Undo</Button>
 
+              </ButtonGroup>
+             <ButtonGroup variant="text" aria-label='toggle button group'>
             <FormGroup>
               <FormControlLabel control={ <Switch checked={autoengine} onChange={handleSwitchChange} inputProps={{ 'aria-label': 'controlled' }}/>} label="Live Analyzer" />
             </FormGroup>
@@ -460,7 +463,6 @@ function App() {
             {getconvo}
           </Typography>
           <LoadingComponent loading={loadconvoclick}></LoadingComponent>
-          
         </div>
       </div>
     </div>

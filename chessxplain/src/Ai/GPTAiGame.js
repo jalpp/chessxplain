@@ -22,7 +22,7 @@ const handleGPTGame = async (game) => {
 
     try{
     const response = await axios.request(options);
-    return response.reply;
+    return response.data.reply;
   } catch (error) {
     console.error(error);
   }
