@@ -3,6 +3,6 @@
   "dependencies": {
     "axios": "^0.28.0",
     "body-parser": "^1.20.2",
-    "express": "^4.17.1"
+    "express": "^4.19.2"
   }
 }
