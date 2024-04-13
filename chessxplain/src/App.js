@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Chessboard} from 'react-chessboard';
 import './App.css';
+import LinearProgress from '@mui/material/LinearProgress';
 import fetchEvaluation from './fish/Stockfish.js';
 import handleConvo from './Ai/GPTConvo.js';
 import handleLama from './Ai/LAMAAi.js';
@@ -30,6 +31,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 function App() {
   const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
   const [fen, setFen] = useState(defaultFen);
+  const [evalbar, setEvalBar] = useState(50);
   const [darkMode, setDarkMode] = useState(true);
   const [boardColor, setBoardColor] = useState('#edeed1');
   const [darkColor, setDarkColor] = useState('#779952')
@@ -227,6 +229,7 @@ function App() {
     setToplineanb('');
     setToplinean('');
     setArrow([['', '']])
+    setEvalBar(50);
   }
 
 
@@ -235,6 +238,14 @@ function App() {
     setFishloading(true);
     try {
       const evaluationValue = await fetchEvaluation('eval', '13', game.fen());
+      const realBar = parseInt(evaluationValue.data.split(" ")[2]);
+      if(realBar === 0){
+       setEvalBar(50)
+      }else if(realBar > 1){
+       setEvalBar(evalbar + (10))
+      } else if (realBar < 0){
+        setEvalBar(evalbar - (10))
+      }
       const topLine = await fetchEvaluation('lines', '13', game.fen())
       const anotherline = await fetchEvaluation('lines', '11', game.fen())
       const anotherline2 = await fetchEvaluation('lines', '10', game.fen())
@@ -276,9 +287,8 @@ function App() {
 
   return (
     <div className={`App ${darkMode ? 'dark' : ''}`}>
+
       <div className="container">
-      
-      
         <div className="icon-container">
         <Typography variant="h4" component="h2">
           ChessXplain.AI 
@@ -328,6 +338,7 @@ function App() {
           </div>
         </div>
         <div className="chessboard-container">
+
           <Chessboard
             position={game.fen()}
             boardOrientation={flip}
@@ -345,6 +356,7 @@ function App() {
             animationDuration={200}
             boardwidth={10000}
           />
+
         </div>
         <div className='buttons-container'>
         <ButtonGroup variant="text" aria-label='Settings button group'>
@@ -381,6 +393,7 @@ function App() {
         <Typography variant="h6" component="h6" >
           Stockfish Evaluation:
         </Typography>
+        <LinearProgress variant="determinate" color="inherit" value={evalbar} />
         <SetMealIcon/>
         </Container>
         <Typography variant='body1' component="body1">
