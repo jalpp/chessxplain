@@ -6,7 +6,6 @@
 # chessXplain
 Chessxplain is open source working prototype that demonstrates AI models can explain chess concepts
 
-[Join Discord](https://discord.gg/PRQTXZXc8Z) [Try chessXplain](https://chessxplain.netlify.app/)
 
 ## Acknowledgements
 
